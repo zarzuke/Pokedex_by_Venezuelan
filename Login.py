@@ -76,13 +76,15 @@ entry_bg_1 = canvas.create_image(
     525.0,
     image=entry_image_1
 )
-#---------------------------------------
-#Estilos del input (Usuario)
+# ---------------------------------------
+# Estilos del input (Usuario)
 username = Entry(
+    window,
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    relief="flat"
 )
 username.place(
     x=436.0,
@@ -98,33 +100,23 @@ canvas.create_text(
     fill="#000000",
     font=("Montserrat Regular", 15 * -1)
 )
-#---------------------------------------
-#Estilos de la imagen para el input (Contraseña)
-password = PhotoImage(
-    file=relative_to_assets("input_contraseña.png"))
-
-password = canvas.create_image(
-    683.0,
-    605.0,
-    image=password
-)
-#---------------------------------------
-#Estilos del input (Contraseña)
+# ---------------------------------------
+# Estilos del input (Contraseña)
 password = Entry(
+    window,
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
+    show="*",
     highlightthickness=0,
-    show="*"
+    relief="flat"
 )
-
 password.place(
     x=436.0,
     y=585.0,
     width=494.0,
     height=38.0
 )
-
 canvas.create_text(
     445.0,
     557.0,
@@ -132,6 +124,14 @@ canvas.create_text(
     text="Contraseña",
     fill="#000000",
     font=("Montserrat Regular", 15 * -1)
+)
+
+# Dibuja una línea debajo del campo de contraseña
+canvas.create_line(
+    436.0, 623.0,  # Coordenadas x, y del inicio de la línea
+    930.0, 623.0,  # Coordenadas x, y del final de la línea
+    fill="#888480",# Color de la línea
+    width=0.5      # Grosor de la línea
 )
 #---------------------------------------
 #Boton para iniciar sesión

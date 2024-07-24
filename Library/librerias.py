@@ -11,10 +11,18 @@ def login(user,password):
     bd.close()
     return pw and pw[0]== password
 
-def abrir_ventana():
-    nueva_ventana = tk.Tk()
-    nueva_ventana.title("Nueva Ventana")
-    nueva_ventana.geometry("1024x768")
-    etiqueta = ttk.Label(nueva_ventana, text="¡Hola desde la nueva ventana!")
-    etiqueta.pack()
+def signup(user,password,rol):
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("INSERT INTO usuarios (usuarioNombre, usuarioPsw, usuarioRol) VALUES (?, ?, ?)",(user,password,rol))
+    bd.commit()
+    bd.close()
 
+def search_users():
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("SELECT (usuarioNombre,usuarioRol) FROM usuarios")
+    search=cursor.fetchall()
+    bd.close()
+    return search
+    
