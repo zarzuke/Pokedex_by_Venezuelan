@@ -19,5 +19,10 @@ def signup(user,password,rol):
     bd.close()
 
 def search_users():
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
     cursor.execute("SELECT (usuarioNombre,usuarioRol) FROM usuarios")
-    return cursor.fetchall()
+    search=cursor.fetchall()
+    bd.close()
+    return search
+    
