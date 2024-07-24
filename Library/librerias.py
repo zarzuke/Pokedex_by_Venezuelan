@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox,ttk
-from test import login
 import sqlite3
 
 def login(user,password):
