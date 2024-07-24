@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox,ttk
 from test import login
+import sqlite3
 
 def login(user,password):
-    Teacher='Oak'
-    PassW=5101999
-    return Teacher==user and PassW==int(password)
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("SELECT usuarioPsw FROM usuarios WHERE usuarioNombre = ?" , (user,))
+    pw=cursor.fetchone()
+    return pw and pw[0]== password
 
 def abrir_ventana():
     nueva_ventana = tk.Tk()
