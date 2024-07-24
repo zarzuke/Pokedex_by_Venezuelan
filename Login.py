@@ -1,7 +1,7 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from Library.librerias import *
-from Selection.R_selection import *
+from Vistas.R_selection import *
 
 
 OUTPUT_PATH = Path(__file__).parent

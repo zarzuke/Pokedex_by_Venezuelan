@@ -3,15 +3,13 @@ from pathlib import Path
 
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"E:\Documentos mios XD\tkDesigner\Pokedex\Pokedex_app\Selection\Main\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
 class Main_PW():
     def open(self):
 
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
-
-
         window = Tk()
 
         window.geometry("1366x768")

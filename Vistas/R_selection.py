@@ -4,12 +4,13 @@ sys.path.append("..")
 from pathlib import Path
 
 #from Vistas.Main_PWindow import *
-
+from Main_PWindow import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
            
 class selection():
+    
     def open(self):
         
         
@@ -44,16 +45,7 @@ class selection():
             fill="#000000",
             font=("Press Start 2P", 48 * -1)
         )
-        """
-        canvas.create_text(
-            545.0,
-            128.0,
-            anchor="nw",
-            text="el área a gestionar",
-            fill="#000000",
-            font=("Montserrat Regular", 32 * -1)
-        )
-        """
+
         #boton1= Pokemones
         image_image_1 = PhotoImage(
             file=relative_to_assets("charmander.png"))
@@ -69,7 +61,7 @@ class selection():
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("pulsado"),#Main_PW.open(),
+            command=lambda: Main_PW().open(),
             relief="flat"
         )
         button_1.place(
@@ -103,8 +95,9 @@ class selection():
             width=130.0,
             height=40.0
         )
+        
         window.resizable(False, False)
         window.mainloop()
 
-#selection=selection()
-#selection.open()
+selection=selection()
+selection.open()
