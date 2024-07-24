@@ -30,7 +30,7 @@ class Main_PW():
 
         canvas.place(x = 0, y = 0)
         image_image_1 = PhotoImage(
-            file=relative_to_assets("image_1.png"))
+            file=relative_to_assets("main_relleno_lateral.png"))
         image_1 = canvas.create_image(
             107.0,
             412.0,
@@ -38,7 +38,7 @@ class Main_PW():
         )
 
         image_image_2 = PhotoImage(
-            file=relative_to_assets("image_2.png"))
+            file=relative_to_assets("main_relleno_general.png"))
         image_2 = canvas.create_image(
             789.0,
             413.0,
@@ -46,7 +46,7 @@ class Main_PW():
         )
 
         image_image_3 = PhotoImage(
-            file=relative_to_assets("image_3.png"))
+            file=relative_to_assets("main_barra.png"))
         image_3 = canvas.create_image(
             682.0,
             29.0,
@@ -63,7 +63,7 @@ class Main_PW():
         )
 
         button_image_1 = PhotoImage(
-            file=relative_to_assets("button_1.png"))
+            file=relative_to_assets("main_boton_volver.png"))
         button_1 = Button(
             image=button_image_1,
             borderwidth=0,
@@ -88,7 +88,7 @@ class Main_PW():
         )
 
         button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
+            file=relative_to_assets("main_boton_modificar.png"))
         button_2 = Button(
             image=button_image_2,
             borderwidth=0,
@@ -104,7 +104,7 @@ class Main_PW():
         )
 
         button_image_3 = PhotoImage(
-            file=relative_to_assets("button_3.png"))
+            file=relative_to_assets("main_boton_listado.png"))
         button_3 = Button(
             image=button_image_3,
             borderwidth=0,
@@ -120,7 +120,7 @@ class Main_PW():
         )
 
         button_image_4 = PhotoImage(
-            file=relative_to_assets("button_4.png"))
+            file=relative_to_assets("main_boton_eliminar.png"))
         button_4 = Button(
             image=button_image_4,
             borderwidth=0,
@@ -136,7 +136,7 @@ class Main_PW():
         )
 
         button_image_5 = PhotoImage(
-            file=relative_to_assets("button_5.png"))
+            file=relative_to_assets("main_boton_registrar.png"))
         button_5 = Button(
             image=button_image_5,
             borderwidth=0,
