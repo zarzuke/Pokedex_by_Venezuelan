@@ -20,6 +20,8 @@ class selection():
 
         window.geometry("1366x768")
         window.configure(bg = "#FFFFFF")
+        #Configuramos el icono de la aplicación
+        window.iconbitmap(relative_to_assets('PokeBall.ico'))
 
         #Main_PW=Main_PW()
 
