@@ -9,8 +9,8 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 #Ruta reltiva que conecta las imagenes con el archivo Login
 
 def recoger_datos():
-    usuario = entry_1.get()
-    contrasena = entry_2.get()
+    usuario = username.get()
+    contrasena = password.get()
     if login(usuario, contrasena):
         messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
         window.destroy()
