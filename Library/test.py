@@ -3,6 +3,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import io
 
+ventana = tk.Tk()
+
 conn = sqlite3.connect('imagenes.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS imagenes
@@ -24,7 +26,7 @@ def guardar_imagen(nombre, ruta_imagen):
     conn.close()
 
 # Ejemplo de uso
-guardar_imagen('ejemplo', 'ruta/a/tu/imagen.jpg')
+
 
 def recuperar_imagen(nombre):
     conn = sqlite3.connect('imagenes.db')
@@ -39,11 +41,16 @@ def mostrar_imagen(nombre):
     imagen = Image.open(io.BytesIO(imagen_binaria))
     render = ImageTk.PhotoImage(imagen)
 
-    ventana = tk.Tk()
-    etiqueta = tk.Label(ventana, image=render)
-    etiqueta.image = render
-    etiqueta.pack()
-    ventana.mainloop()
+    etiqueta_imagen = tk.Label(ventana, image=render)
+    etiqueta_imagen.image = render
+    etiqueta_imagen.pack()
 
+    etiqueta_info = tk.Label(ventana, text="Nombre: Jianxing\nTipo: Aéreo\nClase: Parry_Momy")
+    etiqueta_info.pack()
+    
 # Ejemplo de uso
-mostrar_imagen('ejemplo')
+guardar_imagen('jianxing', 'C:\\Pokedex_by_Venezuelan\\Library\\j.jpg')
+guardar_imagen('pcPng', 'C:\\Pokedex_by_Venezuelan\\Library\\pc.png')
+mostrar_imagen('jianxing')
+#mostrar_imagen('pcPng')
+ventana.mainloop()
