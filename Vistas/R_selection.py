@@ -12,7 +12,7 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 class selection():
     def open_new(self):
         self.window.destroy()
-        Main_PW().open()
+        App().show_frame()
         
     def open(self):
         
