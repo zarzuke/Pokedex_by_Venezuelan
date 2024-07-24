@@ -1,12 +1,15 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from Library.librerias import *
+from Selection.R_selection import *
 
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
 #Ruta reltiva que conecta las imagenes con el archivo Login
+def open_new():
+    selection().open()
 
 def recoger_datos():
     usuario = entry_1.get()
@@ -14,7 +17,7 @@ def recoger_datos():
     if login(usuario, contrasena):
         messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
         window.destroy()
-        abrir_ventana()
+        open_new()
 
     else:
         messagebox.showerror("Error", "Usuario o contraseña incorrectos")

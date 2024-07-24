@@ -104,5 +104,5 @@ class selection():
         window.resizable(False, False)
         window.mainloop()
 
-selection=selection()
-selection.open()
+#selection=selection()
+#selection.open()
