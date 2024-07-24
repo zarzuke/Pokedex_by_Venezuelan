@@ -4,7 +4,7 @@ sys.path.append("..")
 from pathlib import Path
 
 #from Vistas.Main_PWindow import *
-from Main_PWindow import *
+from Vistas.Main_PWindow import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -102,5 +102,5 @@ class selection():
         self.window.resizable(False, False)
         self.window.mainloop()
 
-selection=selection()
-selection.open()
+""" selection=selection()
+selection.open() """
