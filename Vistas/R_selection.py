@@ -24,6 +24,7 @@ class selection():
 
         self.window.geometry("1366x768")
         self.window.configure(bg = "#FFFFFF")
+        self.window.title("Seleccion")
         #Configuramos el icono de la aplicación
         self.window.iconbitmap(relative_to_assets('PokeBall.ico'))
 

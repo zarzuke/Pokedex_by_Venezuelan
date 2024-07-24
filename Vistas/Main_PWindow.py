@@ -14,6 +14,8 @@ class Main_PW():
 
         window.geometry("1366x768")
         window.configure(bg = "#FFFFFF")
+        window.title("Pokedex")
+        window.iconbitmap(relative_to_assets('PokeBall.ico'))
 
 
         canvas = Canvas(
