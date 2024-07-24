@@ -1,26 +1,27 @@
 import tkinter as tk
-from tkinter import messagebox,ttk
+from tkinter import messagebox, ttk
+from Vistas.Main_PWindow import Main_PW
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Aplicación con Contenido Dinámico")
-        self.geometry("400x300")
+        self.title("Pokedex")
+        self.geometry("1366x768")
 
-        # Crear un contenedor para las diferentes vistas
+        # Contenedor para las diferentes vistas
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
 
-        # Crear y mostrar la vista inicial
+        # Mostrar la vista inicial
         self.current_frame = None
-        self.show_frame(HomePage)
+        self.show_frame(SecondaryPage)
 
     def show_frame(self, page_class):
-        # Ocultar la vista actual si existe
+        # Oculta la vista actual si existe
         if self.current_frame is not None:
             self.current_frame.pack_forget()
 
-        # Crear una nueva vista y mostrarla
+        # Crea una nueva vista y la muestra
         self.current_frame = page_class(self.container, self)
         self.current_frame.pack(fill="both", expand=True)
 
@@ -42,16 +43,12 @@ class SecondaryPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-
-        # Etiqueta en la página secundaria
-        label = tk.Label(self, text="Página Secundaria")
-        label.pack(pady=20)
-
-        # Botón para volver a la página principal
-        change_page_button = tk.Button(self, text="Volver a la Página Principal",
-                                       command=lambda: controller.show_frame(HomePage))
-        change_page_button.pack(pady=10)
+        
+        # Crear una instancia de Main_PW como una página dentro de SecondaryPage
+        main_page = Main_PW(self, controller)
+        main_page.pack(fill="both", expand=True)
 
 # Crear y ejecutar la aplicación
-app = App()
-app.mainloop()
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
