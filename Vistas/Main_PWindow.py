@@ -83,7 +83,7 @@ class Main_PW():
             5.0,
             anchor="nw",
             text="Pokédex",
-            fill="#F5F5F5",
+            fill="#000000",
             font=("Inter", 40 * -1)
         )
 

@@ -59,12 +59,12 @@ image_1 = canvas.create_image(
 #---------------------------------------
 #Frase superior
 canvas.create_text(
-    610.0,
+    530.0,
     446.0,
     anchor="nw",
     text="Inicio de sesión",
     fill="#000000",
-    font=("Montserrat Regular", 20 * -1)
+    font=("Press Start 2P", 20 * -1)
 )
 #---------------------------------------
 #Estilos de la imagen para el input (Usuario)
@@ -94,11 +94,11 @@ username.place(
 )
 canvas.create_text(
     445.0,
-    477.0,
+    492.0,
     anchor="nw",
     text="Usuario",
     fill="#000000",
-    font=("Montserrat Regular", 15 * -1)
+    font=("Press Start 2P", 15 * -1)
 )
 # ---------------------------------------
 # Estilos del input (Contraseña)
@@ -119,11 +119,11 @@ password.place(
 )
 canvas.create_text(
     445.0,
-    557.0,
+    570.0,
     anchor="nw",
     text="Contraseña",
     fill="#000000",
-    font=("Montserrat Regular", 15 * -1)
+    font=("Press Start 2P", 15 * -1)
 )
 
 # Dibuja una línea debajo del campo de contraseña

@@ -3,9 +3,8 @@ sys.path.append("..")
 """
 from pathlib import Path
 
-#from Vistas.Main_PWindow import *
-from Main_PWindow import *
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from Vistas.Main_PWindow import *
+from tkinter import Tk, Canvas, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
            
@@ -24,7 +23,6 @@ class selection():
 
         self.window.geometry("1366x768")
         self.window.configure(bg = "#FFFFFF")
-        self.window.title("Seleccion")
         #Configuramos el icono de la aplicación
         self.window.iconbitmap(relative_to_assets('PokeBall.ico'))
 
@@ -42,12 +40,12 @@ class selection():
 
         canvas.place(x = 0, y = 0)
         canvas.create_text(
-            360.0,
+            210.0,
             79.0,
             anchor="nw",
             text="Seleccione el área a gestionar",
             fill="#000000",
-            font=("Press Start 2P", 48 * -1)
+            font=("Press Start 2P", 32 * -1)
         )
 
         #boton1= Pokemones
@@ -102,6 +100,3 @@ class selection():
         
         self.window.resizable(False, False)
         self.window.mainloop()
-
-selection=selection()
-selection.open()

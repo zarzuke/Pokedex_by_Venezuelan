@@ -25,4 +25,3 @@ def search_users():
     search=cursor.fetchall()
     bd.close()
     return search
-    
