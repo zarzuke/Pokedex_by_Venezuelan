@@ -1,6 +1,6 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
-from librerias import *
+from Library.librerias import *
 
 
 OUTPUT_PATH = Path(__file__).parent
