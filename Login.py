@@ -1,10 +1,8 @@
 from pathlib import Path
-from librerias import login
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 
-
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
 #Ruta reltiva que conecta las imagenes con el archivo Login
 def relative_to_assets(path: str) -> Path:
@@ -55,7 +53,7 @@ canvas.create_text(
 #Estilos de la imagen para el input (Usuario)
 canvas.place(x = 0, y = 0)
 entry_image_1 = PhotoImage(
-    file=relative_to_assets("entry_1.png"))
+    file=relative_to_assets("input_usuario.png"))
 entry_bg_1 = canvas.create_image(
     683.0,
     525.0,
@@ -86,7 +84,7 @@ canvas.create_text(
 #---------------------------------------
 #Estilos de la imagen para el input (Contraseña)
 entry_image_2 = PhotoImage(
-    file=relative_to_assets("entry_2.png"))
+    file=relative_to_assets("input_contraseña.png"))
 
 entry_bg_2 = canvas.create_image(
     683.0,
@@ -120,7 +118,7 @@ canvas.create_text(
 #---------------------------------------
 #Boton para iniciar sesión
 button_image_1 = PhotoImage(
-    file=relative_to_assets("Pokemon_button.png"))
+    file=relative_to_assets("Login_button.png"))
 
 button_1 = Button(
     image=button_image_1,
@@ -130,29 +128,10 @@ button_1 = Button(
     relief="flat"
 )
 button_1.place(
-    x=538.0,
+    x=616.0,
     y=665.0,
     width=130.0,
     height=40.0
-)
-#---------------------------------------
-#Boton para ingresar como invitado
-button_image_2 = PhotoImage(
-    file=relative_to_assets("Texto_boton.png"))
-
-button_2 = Button(
-    image=button_image_2,
-    borderwidth=0,
-    highlightthickness=0,
-    command=lambda: print("button_2 clicked"),
-    relief="flat"
-)
-
-button_2.place(
-    x=713.0,
-    y=676.0,
-    width=156.0,
-    height=18.0
 )
 #---------------------------------------
 # Deshabilitar la capacidad de redimensionar la ventana
