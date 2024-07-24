@@ -12,8 +12,8 @@ def open_new():
     selection().open()
 
 def recoger_datos():
-    usuario = entry_1.get()
-    contrasena = entry_2.get()
+    usuario = username.get()
+    contrasena = password.get()
     if login(usuario, contrasena):
         messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
         window.destroy()
@@ -34,7 +34,7 @@ window.title("Login")
 window.geometry("1366x768")
 #Fondo de pantalla de la ventana
 window.configure(bg = "#FFFFFF")
-#Configuramos el icono de la aplicación
+#Configuramos el icono de la aplicación.
 window.iconbitmap(relative_to_assets('PokeBall.ico'))
 
 #Estilos globales de la ventana
@@ -78,13 +78,13 @@ entry_bg_1 = canvas.create_image(
 )
 #---------------------------------------
 #Estilos del input (Usuario)
-entry_1 = Entry(
+username = Entry(
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
     highlightthickness=0
 )
-entry_1.place(
+username.place(
     x=436.0,
     y=505.0,
     width=494.0,
@@ -100,24 +100,25 @@ canvas.create_text(
 )
 #---------------------------------------
 #Estilos de la imagen para el input (Contraseña)
-entry_image_2 = PhotoImage(
+password = PhotoImage(
     file=relative_to_assets("input_contraseña.png"))
 
-entry_bg_2 = canvas.create_image(
+password = canvas.create_image(
     683.0,
     605.0,
-    image=entry_image_2
+    image=password
 )
 #---------------------------------------
 #Estilos del input (Contraseña)
-entry_2 = Entry(
+password = Entry(
     bd=0,
     bg="#FFFFFF",
     fg="#000716",
-    highlightthickness=0
+    highlightthickness=0,
+    show="*"
 )
 
-entry_2.place(
+password.place(
     x=436.0,
     y=585.0,
     width=494.0,
