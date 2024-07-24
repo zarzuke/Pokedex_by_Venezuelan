@@ -1,14 +1,5 @@
 import sqlite3
 
-def select_user(user,password):
-    cursor = connection_db()
-    cursor.execute(f"SELECT usuarioNombre, usuarioPsw FROM usuarios WHERE usuarioNombre == ? and usuarioPsw == ?",(user,password))
-    usuario = cursor.fetchone()
-    if usuario:
-        return True
-    else:
-        return False
-
 # Conectar a la base de datos
 def connect():
     conn = sqlite3.connect('Library/pokimons.db')
