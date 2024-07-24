@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox,ttk
-from test import login
 
 def login(user,password):
     Teacher='Oak'
@@ -13,4 +12,3 @@ def abrir_ventana():
     nueva_ventana.geometry("1024x768")
     etiqueta = ttk.Label(nueva_ventana, text="¡Hola desde la nueva ventana!")
     etiqueta.pack()
-

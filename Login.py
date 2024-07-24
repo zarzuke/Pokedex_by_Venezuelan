@@ -1,11 +1,24 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
+from librerias import *
 
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
 #Ruta reltiva que conecta las imagenes con el archivo Login
+
+def recoger_datos():
+    usuario = entry_1.get()
+    contrasena = entry_2.get()
+    if login(usuario, contrasena):
+        messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+        window.destroy()
+        abrir_ventana()
+
+    else:
+        messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
@@ -125,7 +138,7 @@ button_1 = Button(
     image=button_image_1,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("presioanado"),
+    command=lambda:recoger_datos(),
     relief="flat"
 )
 button_1.place(
