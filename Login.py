@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from librerias import login
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 
 
@@ -9,7 +9,7 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets\frame0")
 #Ruta reltiva que conecta las imagenes con el archivo Login
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
-#hola rafa
+
 #Creamos un objeto usando la clase TK
 #Se crea la instancia de esta clase TK
 window = Tk()
