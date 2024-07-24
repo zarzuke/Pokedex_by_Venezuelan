@@ -8,6 +8,7 @@ def login(user,password):
     cursor = bd.cursor()
     cursor.execute("SELECT usuarioPsw FROM usuarios WHERE usuarioNombre = ?" , (user,))
     pw=cursor.fetchone()
+    bd.close()
     return pw and pw[0]== password
 
 def abrir_ventana():
