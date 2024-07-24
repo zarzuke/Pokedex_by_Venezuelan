@@ -27,7 +27,6 @@ def guardar_imagen(nombre, ruta_imagen):
 
 # Ejemplo de uso
 
-
 def recuperar_imagen(nombre):
     conn = sqlite3.connect('imagenes.db')
     c = conn.cursor()
@@ -49,8 +48,8 @@ def mostrar_imagen(nombre):
     etiqueta_info.pack()
     
 # Ejemplo de uso
-guardar_imagen('jianxing', 'C:\\Pokedex_by_Venezuelan\\Library\\j.jpg')
-guardar_imagen('pcPng', 'C:\\Pokedex_by_Venezuelan\\Library\\pc.png')
+#guardar_imagen('jianxing', 'C:\\Pokedex_by_Venezuelan\\Library\\j.jpg')
+#guardar_imagen('pcPng', 'C:\\Pokedex_by_Venezuelan\\Library\\pc.png')
 mostrar_imagen('jianxing')
 #mostrar_imagen('pcPng')
 ventana.mainloop()
