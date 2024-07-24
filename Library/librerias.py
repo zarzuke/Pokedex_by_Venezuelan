@@ -7,6 +7,13 @@ def login(user,password):
     cursor = bd.cursor()
     cursor.execute("SELECT usuarioPsw FROM usuarios WHERE usuarioNombre = ?" , (user,))
     pw=cursor.fetchone()
+    cursor.executescript('''
+                         CREATE TABLE IF NOT EXISTS sesion (
+                        sesionId INTEGER PRIMARY KEY AUTOINCREMENT,
+                        sesionNombre TEXT NOT NULL
+                        );
+                        INSERT INTO sesion (sesionNombre) VALUES (?)
+                         ''',(pw,))
     bd.close()
     return pw and pw[0]== password
 
