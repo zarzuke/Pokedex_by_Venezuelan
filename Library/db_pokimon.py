@@ -1,8 +1,5 @@
 import sqlite3
 
-def close_db():
-    conn.close()
-
 def select_user(user,password):
     cursor = connection_db()
     cursor.execute(f"SELECT usuarioNombre, usuarioPsw FROM usuarios WHERE usuarioNombre == ? and usuarioPsw == ?",(user,password))
@@ -11,12 +8,10 @@ def select_user(user,password):
         return True
     else:
         return False
-    
-select_user('Cesitar-kun','cesaruwu')
 
 # Conectar a la base de datos
 def connect():
-    conn = sqlite3.connect('pokemons.db')
+    conn = sqlite3.connect('Library/pokimons.db')
     return conn
 
 # Crear un nuevo Pokémon
