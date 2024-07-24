@@ -10,24 +10,27 @@ OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
            
 class selection():
-    
+    def open_new(self):
+        self.window.destroy()
+        Main_PW().open()
+        
     def open(self):
         
         
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
         
-        window = Tk()
+        self.window = Tk()
 
-        window.geometry("1366x768")
-        window.configure(bg = "#FFFFFF")
+        self.window.geometry("1366x768")
+        self.window.configure(bg = "#FFFFFF")
         #Configuramos el icono de la aplicación
-        window.iconbitmap(relative_to_assets('PokeBall.ico'))
+        self.window.iconbitmap(relative_to_assets('PokeBall.ico'))
 
         #Main_PW=Main_PW()
 
         canvas = Canvas(
-            window,
+            self.window,
             bg = "#FFFFFF",
             height = 768,
             width = 1366,
@@ -61,7 +64,7 @@ class selection():
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: Main_PW().open(),
+            command=lambda: self.open_new(),
             relief="flat"
         )
         button_1.place(
@@ -96,8 +99,8 @@ class selection():
             height=40.0
         )
         
-        window.resizable(False, False)
-        window.mainloop()
+        self.window.resizable(False, False)
+        self.window.mainloop()
 
 selection=selection()
 selection.open()
