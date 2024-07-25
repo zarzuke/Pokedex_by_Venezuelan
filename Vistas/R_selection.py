@@ -1,6 +1,5 @@
 from pathlib import Path
 
-#from Vistas.Main_PWindow import *
 from Vistas.Main_PWindow import *
 from Vistas.U_main import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
@@ -17,8 +16,6 @@ class selection():
         M_Usuarios.open()
         
     def open(self):
-        
-        
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
         
@@ -54,7 +51,7 @@ class selection():
         #boton1= Pokemones
         image_image_1 = PhotoImage(
             file=relative_to_assets("charmander.png"))
-        image_1 = canvas.create_image(
+        canvas.create_image(
             280.0,
             459.0,
             image=image_image_1
@@ -79,7 +76,7 @@ class selection():
         image_image_2 = PhotoImage(
             file=relative_to_assets("entrenador.png"))
         resized_image = image_image_2.subsample(4,4)
-        image_2 = canvas.create_image(
+        canvas.create_image(
             1057.0,
             469.0,
             image=resized_image
