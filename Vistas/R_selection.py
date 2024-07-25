@@ -1,10 +1,9 @@
-"""import sys
-sys.path.append("..") 
-"""
+
 from pathlib import Path
 
 #from Vistas.Main_PWindow import *
 from Vistas.Main_PWindow import *
+from Vistas.U_main import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -13,6 +12,10 @@ class selection():
     def open_new(self):
         self.window.destroy()
         App().show_frame()
+        
+    def open_U_main(self):
+        self.window.destroy()
+        M_Usuarios.open()
         
     def open(self):
         
@@ -89,7 +92,7 @@ class selection():
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=lambda: self.open_U_main(),
             relief="flat"
         )
         button_2.place(

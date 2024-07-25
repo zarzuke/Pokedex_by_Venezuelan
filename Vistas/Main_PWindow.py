@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from Registrar import *
+#from Registrar import *
 from Library.librerias import recoger_sesion,drop_sesion
 
 # Rutas relativa de las imagenes
@@ -87,7 +87,7 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_5"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: Registrar.show_Registrar(),
+            command=lambda: print("ola"),#Registrar.show_Registrar(),
             relief="flat"
         ).place(x=1.0, y=57.0, width=213.0, height=58.0)
         
