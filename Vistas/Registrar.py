@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from Registrar import *
+
 # Rutas relativa de las imagenes
 ASSETS_PATH = Path(r"C:\Pokedex_by_Venezuelan\assets")
 
@@ -20,9 +20,9 @@ class Registrar(tk.Frame):
 
     def create_widgets(self):
         self.images = {}
-
+    """
     canvas = tk.Canvas(
-        Registrar,
+        self,
         bg="#FFFFFF",
         height=768,
         width=1366,
@@ -31,6 +31,7 @@ class Registrar(tk.Frame):
         relief="ridge"
     )
     canvas.place(x=0, y=0)
+    """
 
     def show_Registrar():
         button_image_1 = tk.PhotoImage(
