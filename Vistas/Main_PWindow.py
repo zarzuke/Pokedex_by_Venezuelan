@@ -203,6 +203,7 @@ class Main_PW(tk.Frame):
             self.action_button.place_forget()
 
 # Crear y ejecutar la aplicación
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
