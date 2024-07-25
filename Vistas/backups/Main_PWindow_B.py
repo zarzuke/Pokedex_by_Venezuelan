@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from Registrar import *
+
 # Rutas relativa de las imagenes
 ASSETS_PATH = Path(r"C:\Pokedex_by_Venezuelan\assets")
 
@@ -82,7 +82,7 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_5"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: Registrar.show_Registrar(),
+            command=lambda: self.show_action("Registrar"),
             relief="flat"
         ).place(x=1.0, y=57.0, width=213.0, height=58.0)
         
@@ -171,6 +171,7 @@ class Main_PW(tk.Frame):
             self.show_entry("Modificar")
         elif action == "Listado":
             pass
+
     def show_entry(self, action):
         # Muestra un Entry y un botón para confirmar la acción
         self.entry = tk.Entry(self, font=("Inter", 24))
