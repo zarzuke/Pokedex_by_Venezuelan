@@ -1,6 +1,8 @@
 import tkinter as tk
 from pathlib import Path
 from Registrar import *
+from Library.librerias import recoger_sesion,drop_sesion
+
 # Rutas relativa de las imagenes
 ASSETS_PATH = Path(r"C:\Pokedex_by_Venezuelan\assets")
 
@@ -19,7 +21,9 @@ class App(tk.Tk):
         self.geometry("1366x768")
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
-        
+        usuario=recoger_sesion()
+        print(usuario)
+        self.usuario=usuario
         # Mostrar la vista inicial
         self.current_frame = None
         self.show_frame(Main_PW)
@@ -35,9 +39,10 @@ class Main_PW(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+        self.usuario=recoger_sesion()
         self.config(bg="#FFFFFF")
         self.create_widgets()
-
+        drop_sesion()
     def create_widgets(self):
         self.images = {}
         def relative_to_assets(path: str) -> Path:
@@ -139,7 +144,7 @@ class Main_PW(tk.Frame):
             26.0,
             9.0,
             anchor="nw",
-            text="Cesar Maldonado",
+            text=self.usuario,
             fill="#000000",
             font=("Inter", 18 * -1)
         )

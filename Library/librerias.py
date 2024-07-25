@@ -7,13 +7,9 @@ def login(user,password):
     cursor = bd.cursor()
     cursor.execute("SELECT usuarioPsw FROM usuarios WHERE usuarioNombre = ?" , (user,))
     pw=cursor.fetchone()
-    cursor.executescript('''
-                         CREATE TABLE IF NOT EXISTS sesion (
-                        sesionId INTEGER PRIMARY KEY AUTOINCREMENT,
-                        sesionNombre TEXT NOT NULL
-                        );
-                        INSERT INTO sesion (sesionNombre) VALUES (?)
-                         ''',(pw,))
+    cursor.execute("CREATE TABLE IF NOT EXISTS sesion (sesionId INTEGER PRIMARY KEY AUTOINCREMENT,sesionNombre TEXT NOT NULL)")
+    cursor.execute("INSERT INTO sesion (sesionNombre) VALUES (?)",(user,))
+    bd.commit() 
     bd.close()
     return pw and pw[0]== password
 
@@ -31,3 +27,18 @@ def search_users():
     search=cursor.fetchall()
     bd.close()
     return search
+
+def recoger_sesion():
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("SELECT sesionNombre FROM sesion")
+    sesion=cursor.fetchone()
+    bd.close()
+    return sesion
+
+def drop_sesion():
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("DELETE FROM sesion")
+    bd.commit()
+    bd.close()
