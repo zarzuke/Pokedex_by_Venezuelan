@@ -150,6 +150,10 @@ button_1.place(
     width=130.0,
     height=40.0
 )
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of ded5426 (Cambios del register)
 #---------------------------------------
 # Deshabilitar la capacidad de redimensionar la ventana
 window.resizable(False, False)
