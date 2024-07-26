@@ -13,12 +13,20 @@ def login(user,password):
     bd.close()
     return pw and pw[0]== password
 
-def signup(user,password,rol):
+def signup(user,password,rol,cedula):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
-    cursor.execute("INSERT INTO usuarios (usuarioNombre, usuarioPsw, usuarioRol) VALUES (?, ?, ?)",(user,password,rol))
-    bd.commit()
-    bd.close()
+    cursor.execute("SELECT cedula FROM usuarios WHERE cedula = ?", (cedula,))
+    busqueda=()
+    busqueda=cursor.fetchone()
+    if busqueda is not None:
+        bd.close()
+        return False
+    else:
+        cursor.execute("INSERT INTO usuarios (usuarioNombre, usuarioPsw, usuarioRol,cedula) VALUES (?, ?, ?, ?)",(user,password,rol,cedula,))
+        bd.commit()
+        bd.close()
+        return True
 
 def search_users(username):
     bd = sqlite3.connect("Library/pokimons.db")
