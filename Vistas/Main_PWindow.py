@@ -763,14 +763,14 @@ class Modificar(tk.Frame):
                         padding= "9",
                         ) # padding para agrandar la altura del select
         
-        pokemon_types = [
-        "Agua", "Bicho", "Dragón", "Eléctrico", "Fuego", "Hada", "Hielo",
-        "Lucha", "Normal", "Planta", "Psíquico", "Roca", "Siniestro", "Tierra",
-        "Veneno", "Volador"
-        ]
+        pokemon_types = {"Normal": 1, "Lucha": 2, "Volador": 3, "Veneno": 4, "Tierra": 5, "Roca": 6, "Bicho": 7, "Fantasma": 8, "Fuego": 9, "Agua": 10, "Planta": 11, "Electrico": 12, "Psiquico": 13, "Hielo": 14, "Dragon": 15}
         
+<<<<<<< Updated upstream
         self.tipos_de_pokemones = ttk.Combobox(self, values=pokemon_types, state="readonly", width=30, font=("Montserrat Medium", 10))
         self.tipos_de_pokemones.place(x=520.0, y=181.5)
+=======
+        tipos_de_pokemones = ttk.Combobox(self, values=pokemon_types.keys(), state="readonly", width=30, font=("Montserrat Medium", 10)).place(x=520.0, y=181.5)
+>>>>>>> Stashed changes
         #-------------------------------------------------------------------------------
         # Select sexo del pokemon
         style = ttk.Style()
