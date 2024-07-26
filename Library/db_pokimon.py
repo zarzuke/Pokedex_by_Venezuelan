@@ -15,6 +15,7 @@ def create_pokemon(pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc):
     ''', (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc))
     conn.commit()
     conn.close()
+    return True
 
 # Leer todos los Pokémon
 def read_pokemons():

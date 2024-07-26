@@ -2,6 +2,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import ttk, messagebox
 from Library.librerias import recoger_sesion, drop_sesion
+from Library.db_pokimon import  create_pokemon
 
 # Rutas relativas de las imágenes
 ASSETS_PATH = Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -13,7 +14,7 @@ def relative_to_assets(path: str) -> Path:
     if not full_path.exists():
         raise FileNotFoundError(f"Image not found: {full_path}")
     return full_path
-
+        
 # Clase principal de la aplicación
 class Balls(tk.Tk):
     def __init__(self, rol_usuario = None):
@@ -27,6 +28,13 @@ class Balls(tk.Tk):
         self.current_frame = None
         self.iconbitmap(relative_to_assets('PokeBall.ico'))
         self.show_frame(SecondaryPage)
+        
+        # Vincula la función on_closing al evento de cierre de la ventana
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+        
+    def on_closing(self):
+        drop_sesion()
+        self.destroy()
 
     def show_frame(self, page_class):
         if self.current_frame is not None:
@@ -198,9 +206,19 @@ class Registrar(tk.Frame):
         self.controller = controller
         self.config(bg="#FFFFFF")
         self.create_widgets()
+         
+    def validate_number_input(self,text):
+        if text == "":
+            return True
+        try:
+            float(text)
+            return True
+        except ValueError:
+            return False
 
     def create_widgets(self):
         self.images = {}  # Diccionario para almacenar las imagenes
+        validate_number = self.register(self.validate_number_input)
 
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
@@ -291,11 +309,14 @@ class Registrar(tk.Frame):
         canvas.create_text(263.0, 352.0, anchor="nw", text="Descripción", fill="#000000", font=("Montserrat Regular", 15))
         #-------------------------------------------------------------------------------------
         # Crear y colocar los widgets
-        nombre = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid").place(x=520.0, y=282.0, width=237.0, height=38.0)
+        self.altura = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid", validate="key", validatecommand=(validate_number, "%P"))
+        self.altura.place(x=520.0, y=282.0, width=237.0, height=38.0)
+ 
+        self.nombre = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid" ) # %P representa el texto del widget después de la entrada)
+        self.nombre.place(x=263.0, y=182.0, width=237.0, height=38.0)
 
-        peso = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid").place(x=263.0, y=182.0, width=237.0, height=38.0)
-
-        altura = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid").place(x=263.0, y=282.0, width=237.0, height=37.5)
+        self.peso = tk.Entry(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, borderwidth=0.5, relief="solid", validate="key", validatecommand=(validate_number, "%P"))
+        self.peso.place(x=263.0, y=282.0, width=237.0, height=37.5)
         
         #Select tipo de pokemon
         style = ttk.Style()
@@ -314,7 +335,8 @@ class Registrar(tk.Frame):
         "Veneno", "Volador"
         ]
         
-        tipos_de_pokemones = ttk.Combobox(self, values=pokemon_types, state="readonly", width=30, font=("Montserrat Medium", 10)).place(x=520.0, y=181.5)
+        self.tipos_de_pokemones = ttk.Combobox(self, values=pokemon_types, state="readonly", width=30, font=("Montserrat Medium", 10))
+        self.tipos_de_pokemones.place(x=520.0, y=181.5)
         #-------------------------------------------------------------------------------
         # Select sexo del pokemon
         style = ttk.Style()
@@ -327,16 +349,20 @@ class Registrar(tk.Frame):
                         padding= "9",
                         ) # padding para agrandar la altura del select
         
-        pokemon_sex = ["Masculino", "Femenino"]
+        self.pokemon_sex = {
+            "Masculino": 1,
+            "Femenino": 2
+        }
         
-        tipos_de_sexo = ttk.Combobox(self, values=pokemon_sex, state="readonly", width=30, font=("Montserrat Medium", 10)).place(x=779.0, y=282.0)
+        self.tipos_de_sexo = ttk.Combobox(self, values=list(self.pokemon_sex.keys()), state="readonly", width=30, font=("Montserrat Medium", 10))
+        self.tipos_de_sexo.place(x=779.0, y=282.0)
         #-------------------------------------------------------------------------------
         # TextArea
-        text_area = tk.Text(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, wrap=tk.WORD)
-        text_area.place(x=265.0, y=382.0, width=751.0, height=238.0)
+        self.text_area = tk.Text(self, bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, wrap=tk.WORD)
+        self.text_area.place(x=265.0, y=382.0, width=751.0, height=238.0)
         
         # Ajustar la apariencia del Text widget para que se parezca al Entry
-        text_area.config(font=("Montserrat Medium", 10), padx=10, pady=10, borderwidth=0.5, relief="solid")
+        self.text_area.config(font=("Montserrat Medium", 10), padx=10, pady=10, borderwidth=0.5, relief="solid")
         #-------------------------------------------------------------------------------
         # Cargar y almacenar las imágenes
         self.images['boton_R'] = tk.PhotoImage(file=relative_to_assets("R_Boton_registrar.png"))
@@ -376,7 +402,7 @@ class Registrar(tk.Frame):
             image=boton_R,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("B_registrar clicked"),
+            command=lambda: self.add_pokemon(),
             relief="flat",
         ).place(x=265.0, y=635.0, width=130.0, height=40.0)
         
@@ -408,6 +434,26 @@ class Registrar(tk.Frame):
      # Guarda el canvas para poder ocultarlo
         self.canvas = canvas
         
+    def add_pokemon(self):
+        nombre = self.nombre.get()
+        tipo = self.tipos_de_pokemones.get()
+        peso = float(self.peso.get()) if self.peso.get() else 0
+        altura = float(self.altura.get()) if self.altura.get() else 0
+        sexo = self.pokemon_sex.get(self.tipos_de_sexo.get()) 
+        descripcion = self.text_area.get("1.0", "end-1c")
+
+        if create_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
+            #Limpia el formulario
+            self.nombre.delete(0, 'end')
+            self.tipos_de_pokemones.set('') 
+            self.peso.delete(0, 'end')
+            self.altura.delete(0, 'end')
+            self.tipos_de_sexo.set('')
+            self.text_area.delete("1.0", "end")
+            messagebox.showinfo("Éxito", "Pokémon registrado exitosamente")
+        else:
+            messagebox.showerror("Error", "Error al registrar el Pokémon")
+        
     def hide_widgets(self):
         self.button_registrar.place_forget()
         self.button_volver.place_forget()
@@ -425,7 +471,7 @@ class Registrar(tk.Frame):
     def open_seleccion(self):
         self.controller.destroy()  ##### Cierra solo la ventana  actual
         from Vistas.R_selection import selection
-        selection().open() 
+        selection().open()
 
 class Eliminar(tk.Frame):
     def __init__(self, parent, controller, rol_usuario):
