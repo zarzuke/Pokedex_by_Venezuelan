@@ -32,14 +32,21 @@ def read_pokemons():
 def update_pokemon(pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc):
     conn = connect()
     cursor = conn.cursor()
-    cursor.execute('''
-        UPDATE pokemons
-        SET pkNombre = ?, pkTipo = ?, pkPeso = ?, pkAltura = ?, pkSexo = ?, pkDesc = ?
-        WHERE pkNombre = ?
-    ''', (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc, pkNombre))
-    conn.commit()
-    conn.close()
-    return True
+    cursor.execute("SELECT pkNombre FROM pokemons WHERE pknombre = ?", (pkNombre,))
+    busqueda=()
+    busqueda=cursor.fetchone()
+    if busqueda is not None:
+        conn.close()
+        return False
+    else:
+        cursor.execute('''
+            UPDATE pokemons
+            SET pkNombre = ?, pkTipo = ?, pkPeso = ?, pkAltura = ?, pkSexo = ?, pkDesc = ?
+            WHERE pkNombre = ?
+        ''', (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc, pkNombre))
+        conn.commit()
+        conn.close()
+        return True
 
 # Eliminar un Pokémon
 def delete_pokemon(pkId):
