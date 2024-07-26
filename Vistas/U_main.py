@@ -2,6 +2,7 @@ from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
 from tkinter import Tk, Canvas, Button, PhotoImage
+from Vistas.users_lista import show_users
 
 # Rutas relativas para las imagenes
 OUTPUT_PATH = Path(__file__).parent
@@ -142,7 +143,8 @@ class M_Usuarios(tk.Frame):
             image=self.images["button_listado"],
             borderwidth=0,
             highlightthickness=0,
-            relief="flat"
+            relief="flat",
+            command=show_users
         ).place(x=1.0, y=57.0, width=213.0, height=58.0)
         
         # Boton para modicar el usuario
@@ -267,7 +269,8 @@ class Eliminar(tk.Frame):
             image=self.images["button_listado"],
             borderwidth=0,
             highlightthickness=0,
-            relief="flat"
+            relief="flat",
+            command=show_users
         )
         self.button_listado.place(x=1.0, y=57.0, width=213.0, height=58.0)
         
@@ -430,7 +433,8 @@ class Modificar(tk.Frame):
             image=self.images["button_listado"],
             borderwidth=0,
             highlightthickness=0,
-            relief="flat"
+            relief="flat",
+            command=show_users
         )
         self.button_listado.place(x=1.0, y=57.0, width=213.0, height=58.0)
         

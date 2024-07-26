@@ -50,9 +50,16 @@ def drop_sesion():
     cursor.execute("DELETE FROM sesion")
     bd.commit()
     bd.close()
-    
-    
-    
+   
+def search_all_users():
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    search = []
+    cursor.execute("SELECT u.usuarioNombre, r.rolNombre FROM usuarios as u JOIN rol as r ON r.rolId = u.usuarioRol")
+    search.append(cursor.fetchall())
+    bd.close()
+    return search
+
 #Funciones Para Lista Pokemons
 def search_pk(pokemon):
         bd = sqlite3.connect("Library/pokimons.db")
