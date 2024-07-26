@@ -14,7 +14,6 @@ def main():
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
 
-def main(): 
     # Global image reference to prevent garbage collection
     global_image_ref = None
 
