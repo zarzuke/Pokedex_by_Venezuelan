@@ -3,7 +3,6 @@ from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from Library.librerias import *
 from Vistas.R_selection import *
 
-
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
