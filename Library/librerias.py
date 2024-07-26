@@ -28,10 +28,10 @@ def signup(user,password,rol,cedula):
         bd.close()
         return True
 
-def search_users():
+def search_users(username):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
-    cursor.execute("SELECT (usuarioNombre,usuarioRol) FROM usuarios")
+    cursor.execute("SELECT u.usuarioNombre, r.rolNombre FROM usuarios as u JOIN rol as r ON r.rolId = u.usuarioRol WHERE u.usuarioNombre = ?", (username,))
     search=cursor.fetchall()
     bd.close()
     return search
@@ -54,7 +54,6 @@ def drop_sesion():
     
     
 #Funciones Para Lista Pokemons
-
 def search_pk(pokemon):
         bd = sqlite3.connect("Library/pokimons.db")
         cursor = bd.cursor()
