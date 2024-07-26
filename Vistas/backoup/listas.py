@@ -241,8 +241,7 @@ def show_pokemons():
         
     # Create window
     root = tk.Tk()
-    root.geometry("1366x700")
-    root.resizable(False, False)
+    root.geometry("1366x768")
 
     frame = tk.Frame(root)
     frame.pack(padx=10, pady=10, fill='both', expand=True)
@@ -324,13 +323,13 @@ def show_pokemons():
 
 
     # Canvas for buttons
-    buttons_canvas = tk.Canvas(treeview_canvas)
+    buttons_canvas = tk.Canvas(root)
     buttons_canvas.pack(side="bottom", fill="x")
 
     # Create buttons
     Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_recharge)
     Button2 = tk.Button(buttons_canvas, text="Favoritos", width=10, command=command_to_search_favs)
-    boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'Reportes'")
+    boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'")
 
     # Position buttons below Treeview
     Button1.pack(side="right", anchor="se", padx=5)

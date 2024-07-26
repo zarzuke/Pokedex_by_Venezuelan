@@ -4,7 +4,7 @@ from tkinter import ttk, messagebox
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from Library.librerias import recoger_sesion, drop_sesion
 from Library.db_pokimon import  create_pokemon,delete_pokemon,update_pokemon
-from Vistas.listas import show_pokemons
+from Vistas.listas import *
 import random
 
 # Rutas relativas de las imágenes
@@ -126,7 +126,7 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=show_pokemons,
+            command=lambda: { self.controller.destroy(), show_pokemons() },
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
@@ -285,7 +285,7 @@ class Registrar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=show_pokemons,
+              command=lambda: { self.controller.destroy(), show_pokemons() },
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
@@ -589,7 +589,7 @@ class Eliminar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=show_pokemons,
+              command=lambda: { self.controller.destroy(), show_pokemons() },
             relief="flat"
         )
         self.button_listado.place(x=1.0, y=115.0, width=213.0, height=58.0)
@@ -756,7 +756,7 @@ class Modificar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=show_pokemons,
+            command=lambda: { self.controller.destroy(), show_pokemons() },
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
