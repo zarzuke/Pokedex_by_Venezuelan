@@ -20,10 +20,10 @@ def signup(user,password,rol):
     bd.commit()
     bd.close()
 
-def search_users():
+def search_users(username):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
-    cursor.execute("SELECT (usuarioNombre,usuarioRol) FROM usuarios")
+    cursor.execute("SELECT u.usuarioNombre, r.rolNombre FROM usuarios as u JOIN rol as r ON r.rolId = u.usuarioRol WHERE u.usuarioNombre = ?", (username,))
     search=cursor.fetchall()
     bd.close()
     return search
@@ -99,14 +99,14 @@ def search_all_pk():
 
 def save_pk(username,pks):
     bd = sqlite3.connect("Library/pokimons.db")
-    cursor = db.cursor()
+    cursor = bd.cursor()
     cursor.execute("UPDATE usuarios SET usuarioPkF == ? WHERE usuarioNombre == ?",(pks,username))
-    db.commit()
-    db.close() 
+    bd.commit()
+    bd.close() 
             
 def search_favorite_pk(username):
     bd = sqlite3.connect("Library/pokimons.db")
-    cursor = db.cursor()
+    cursor = bd.cursor()
     cursor.execute('SELECT usuarioPkF FROM usuarios WHERE usuarioNombre == ?',(username,))
     search = cursor.fetchone()
     return search

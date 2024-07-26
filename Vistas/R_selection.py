@@ -2,23 +2,32 @@ from pathlib import Path
 
 from Vistas.Main_PWindow import *
 from Vistas.U_main import *
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from Library.librerias import search_users
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
            
 class selection():
-    def __init__(self):
+    def __init__(self, usuario=None):
+        self.usuario = usuario
         self.window = None
         
-    def open_new(self):
+    def open_new(self, rol_usuario):
         self.window.destroy()
-        Balls().open()
+        Balls(rol_usuario).open()
         
     def open_U_main(self):
         self.window.destroy()
         Users().open()
         
     def open(self):
+        #Obtener valores del usuario
+        if self.usuario != None:
+            type_rol = search_users(self.usuario)
+            rol_usuario = type_rol[0][1]
+        else:
+            rol_usuario = "administrador"
+        
         def relative_to_assets(path: str) -> Path:
             return ASSETS_PATH / Path(path)
         
@@ -55,6 +64,17 @@ class selection():
             fill="#000000",
             font=("Press Start 2P", 32 * -1)
         )
+        
+          #Funcion para evaluar el rol del usuario
+        def isAdministrator(rol_usuario):
+            return rol_usuario == "administrador"
+        
+        # Función para manejar el clic del botón
+        def handle_button_click():
+            if isAdministrator(rol_usuario):
+                self.open_U_main()
+            else:
+                messagebox.showerror("Permisos insuficientes", "No tienes los permisos requeridos para ingresar a esta sesión.")
 
         #boton1= Pokemones
         image_image_1 = PhotoImage(
@@ -71,7 +91,7 @@ class selection():
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.open_new(),
+            command=lambda: self.open_new(rol_usuario),
             relief="flat"
         )
         button_1.place(
@@ -96,7 +116,7 @@ class selection():
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.open_U_main(),
+            command=handle_button_click,
             relief="flat"
         )
         button_2.place(
