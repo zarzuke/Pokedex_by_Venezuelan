@@ -1,6 +1,6 @@
 import tkinter as tk
 from pathlib import Path
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from Library.librerias import recoger_sesion, drop_sesion
 
 # Rutas relativas de las imágenes
@@ -16,7 +16,8 @@ def relative_to_assets(path: str) -> Path:
 
 # Clase principal de la aplicación
 class Balls(tk.Tk):
-    def __init__(self):
+    def __init__(self, rol_usuario = None):
+        self.rol_usuario = rol_usuario
         super().__init__()
         self.title("Pokedex")
         self.geometry("1366x768")
@@ -30,23 +31,25 @@ class Balls(tk.Tk):
     def show_frame(self, page_class):
         if self.current_frame is not None:
             self.current_frame.pack_forget()
-        self.current_frame = page_class(self.container, self)
+        self.current_frame = page_class(self.container, self, self.rol_usuario)
         self.current_frame.pack(fill="both", expand=True)
 
     def open(self):
         self.mainloop()
 
 class SecondaryPage(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, rol_usuario):
         super().__init__(parent)
         self.controller = controller
-        main_page = Main_PW(self, controller)
+        self.rol_usuario = rol_usuario
+        main_page = Main_PW(self, controller, rol_usuario)
         main_page.pack(fill="both", expand=True)
 
 class Main_PW(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, rol_usuario):
         super().__init__(parent)
         self.controller = controller
+        self.rol_usuario = rol_usuario
         usuario=recoger_sesion()
         self.usuario=usuario
         self.config(bg="#FFFFFF")
@@ -82,7 +85,7 @@ class Main_PW(tk.Frame):
             borderwidth=0,
             highlightthickness=0,
             activebackground="#E83030",
-            command=lambda: self.open_seleccion(),
+            command=self.open_seleccion,
             relief="flat"
         ).place(x=1135.0, y=15.0, width=208.0, height=29.0)
         
@@ -92,7 +95,7 @@ class Main_PW(tk.Frame):
             image=self.images["registrar"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.controller.show_frame(Registrar),
+            command=self.open_registrar,
             relief="flat"
         ).place(x=1.0, y=57.0, width=213.0, height=58.0)
 
@@ -102,7 +105,7 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_2"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.controller.show_frame(Modificar),
+            command=self.open_modificar,
             relief="flat"
         ).place(x=1.0, y=173.0, width=213.0, height=58.0)
 
@@ -122,18 +125,74 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_4"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.controller.show_frame(Eliminar),
+            command=self.open_eliminar,
             relief="flat"
         ).place(x=1.0, y=231.0, width=213.0, height=58.0)
+        
+        #Texto en el navbar para mostrar
+        canvas.create_text(
+            600.0,
+            141.0,
+            anchor="nw",
+            text="Bienvenido",
+            fill="#191919",
+            font=("Inter", 64 * -1)
+        )
+        canvas.create_text(
+            226.0,
+            5.0,
+            anchor="nw",
+            text="Pokédex",
+            fill="#000000",
+            font=("Inter", 40 * -1)
+        )
+        canvas.create_text(
+            26.0,
+            9.0,
+            anchor="nw",
+            text=self.usuario,
+            fill="#000000",
+            font=("Inter", 18 * -1)
+        )
+        canvas.create_text(
+            26.0,
+            31.0,
+            anchor="nw",
+            text=self.rol_usuario,
+            fill="#000000",
+            font=("Inter", 14 * -1)
+        )
 
     def open_seleccion(self):
         self.controller.destroy()  ##### Cierra solo la ventana  actual
         from Vistas.R_selection import selection
         selection().open() 
+        
+    def open_registrar(self):
+        if self.rol_usuario == "administrador":
+            self.controller.show_frame(Registrar)
+        else:
+            self.show_permission_error()
+
+    def open_modificar(self):
+        if self.rol_usuario == "administrador":
+            self.controller.show_frame(Modificar)
+        else:
+            self.show_permission_error()
+
+    def open_eliminar(self):
+        if self.rol_usuario == "administrador":
+            self.controller.show_frame(Eliminar)
+        else:
+            self.show_permission_error()
+
+    def show_permission_error(self):
+        messagebox.showerror("Permiso Denegado", "No tienes los permisos necesarios para acceder a esta funcionalidad.")
 
 class Registrar(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, rol_usuario):
         super().__init__(parent)
+        self.rol_usuario = rol_usuario
         usuario=recoger_sesion()
         self.usuario=usuario
         self.controller = controller
@@ -174,8 +233,8 @@ class Registrar(tk.Frame):
             image=self.images["button_volver"],
             borderwidth=0,
             highlightthickness=0,
+            command=lambda:self.open_seleccion(),
             activebackground="#E83030",
-            command=lambda: None,
             relief="flat"
         ).place(x=1135.0, y=15.0, width=208.0, height=29.0)
         
@@ -341,7 +400,7 @@ class Registrar(tk.Frame):
             26.0,
             31.0,
             anchor="nw",
-            text="Admin",
+            text=self.rol_usuario,
             fill="#000000",
             font=("Inter", 14 * -1)
         )
@@ -362,10 +421,16 @@ class Registrar(tk.Frame):
         self.canvas.itemconfigure(self.navbar_title, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_1, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_2, state='hidden')
+        
+    def open_seleccion(self):
+        self.controller.destroy()  ##### Cierra solo la ventana  actual
+        from Vistas.R_selection import selection
+        selection().open() 
 
 class Eliminar(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, rol_usuario):
         super().__init__(parent)
+        self.rol_usuario = rol_usuario
         self.controller = controller
         usuario=recoger_sesion()
         self.usuario=usuario
@@ -400,6 +465,19 @@ class Eliminar(tk.Frame):
         canvas.create_image(682.0, 29.0, image=self.images["image_3"])
 
         # Cargar y almacenar las imágenes de los botones
+
+        self.images["button_image_1"] = tk.PhotoImage(file=relative_to_assets("main_boton_volver.png"))
+        self.button_volver = tk.Button(
+            self,
+            image=self.images["button_image_1"],
+            borderwidth=0,
+            command=lambda:self.open_seleccion(),
+            activebackground="#E83030",
+            highlightthickness=0,
+            relief="flat"
+        )
+        self.button_volver.place(x=1135.0, y=15.0, width=208.0, height=29.0)
+        
         self.images["button_image_5"] = tk.PhotoImage(file=relative_to_assets("main_boton_registrar.png"))
         self.button_registrar = tk.Button(
             self,
@@ -410,17 +488,6 @@ class Eliminar(tk.Frame):
             relief="flat"
         )
         self.button_registrar.place(x=1.0, y=57.0, width=213.0, height=58.0)
-        
-        self.images["button_image_1"] = tk.PhotoImage(file=relative_to_assets("main_boton_volver.png"))
-        self.button_volver = tk.Button(
-            self,
-            image=self.images["button_image_1"],
-            borderwidth=0,
-            activebackground="#E83030",
-            highlightthickness=0,
-            relief="flat"
-        )
-        self.button_volver.place(x=1135.0, y=15.0, width=208.0, height=29.0)
 
         self.images["button_image_2"] = tk.PhotoImage(file=relative_to_assets("main_boton_modificar.png"))
         self.button_modificar = tk.Button(
@@ -487,7 +554,7 @@ class Eliminar(tk.Frame):
         # Texto del navbar
         self.navbar_title = canvas.create_text(226.0, 5.0, anchor="nw", text="Pokédex", fill="#000000", font=("Inter", 40 * -1))
         self.navbar_subtitle_1 = canvas.create_text(26.0, 9.0, anchor="nw", text=self.usuario, fill="#000000", font=("Inter", 18 * -1))
-        self.navbar_subtitle_2 = canvas.create_text(26.0, 31.0, anchor="nw", text="Admin", fill="#000000", font=("Inter", 14 * -1))
+        self.navbar_subtitle_2 = canvas.create_text(26.0, 31.0, anchor="nw", text=self.rol_usuario, fill="#000000", font=("Inter", 14 * -1))
 
         # Guarda el canvas para poder ocultarlo
         self.canvas = canvas
@@ -505,9 +572,16 @@ class Eliminar(tk.Frame):
         self.canvas.itemconfigure(self.navbar_title, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_1, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_2, state='hidden')
+        
+    def open_seleccion(self):
+        self.controller.destroy()  ##### Cierra solo la ventana  actual
+        from Vistas.R_selection import selection
+        selection().open() 
+
 
 class Modificar(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, rol_usuario):
+        self.rol_usuario = rol_usuario
         usuario=recoger_sesion()
         self.usuario=usuario
         super().__init__(parent)
@@ -549,8 +623,8 @@ class Modificar(tk.Frame):
             image=self.images["button_volver"],
             activebackground="#E83030",
             borderwidth=0,
+            command=lambda:self.open_seleccion(),
             highlightthickness=0,
-            command=lambda: None,
             relief="flat"
         ).place(x=1135.0, y=15.0, width=208.0, height=29.0)
         
@@ -716,7 +790,7 @@ class Modificar(tk.Frame):
             26.0,
             31.0,
             anchor="nw",
-            text="Admin",
+            text=self.rol_usuario,
             fill="#000000",
             font=("Inter", 14 * -1)
         )
@@ -737,6 +811,11 @@ class Modificar(tk.Frame):
         self.canvas.itemconfigure(self.navbar_title, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_1, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_2, state='hidden')
+    
+    def open_seleccion(self):
+        self.controller.destroy()  ##### Cierra solo la ventana  actual
+        from Vistas.R_selection import selection
+        selection().open() 
 
 class Listado(tk.Frame):
     pass
