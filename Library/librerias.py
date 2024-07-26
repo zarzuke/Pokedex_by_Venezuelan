@@ -51,20 +51,38 @@ def drop_sesion():
     bd.commit()
     bd.close()
 
-def update_users(cedula,name,passw):
-    bd = sqlite3.connect("Library/pokimons.db")
-    cursor = bd.cursor()
-    cursor.execute("UPDATE usuarios SET usuarioNombre=?, usuarioPsw=? WHERE cedula == ?",(name,passw,cedula))
-    bd.commit()
-    bd.close()
-    
+def update_users(cedula, name, passw):
+    try:
+        bd = sqlite3.connect("Library/pokimons.db")
+        cursor = bd.cursor()
+        cursor.execute("SELECT cedula FROM usuarios WHERE cedula = ?", (cedula,))
+        busqueda = cursor.fetchone()
+
+        if busqueda is None:
+            bd.close()
+            return False
+        else:
+            cursor.execute("UPDATE usuarios SET usuarioNombre=?, usuarioPsw=? WHERE cedula = ?", (name, passw, cedula))
+            bd.commit()
+            bd.close()
+            return True
+    except sqlite3.Error as e:
+        print(f"Error en la base de datos: {e}")
+        return False
     
 def delete_users(cedula):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
-    cursor.execute("DELETE FROM usuarios WHERE cedula == ?",(cedula,))
-    bd.commit()
-    bd.close()
+    cursor.execute("SELECT cedula FROM usuarios WHERE cedula = ?", (cedula,))
+    busqueda = cursor.fetchone()
+    if busqueda is None:
+        bd.close()
+        return False
+    else:
+        cursor.execute("DELETE FROM usuarios WHERE cedula == ?",(cedula,))
+        bd.commit()
+        bd.close()
+        return True
 
 def search_all_users():
     bd = sqlite3.connect("Library/pokimons.db")

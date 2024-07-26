@@ -1,8 +1,9 @@
 from pathlib import Path
 import tkinter as tk
 from tkinter import ttk
-from tkinter import Tk, Canvas, Button, PhotoImage
+from tkinter import Tk, Canvas, Button, PhotoImage,messagebox
 from Vistas.users_lista import show_users
+from Library.librerias import update_users,delete_users
 
 # Rutas relativas para las imagenes
 OUTPUT_PATH = Path(__file__).parent
@@ -321,7 +322,8 @@ class Eliminar(tk.Frame):
             image=self.images["button_eliminar_usuario"],
             borderwidth=0,
             highlightthickness=0,
-            relief="flat"
+            relief="flat",
+            command=lambda:self.deleteuser()
         )
         self.button_volver.place(x=265.0, y=264.0, width=130.0, height=40.0)
 
@@ -336,6 +338,15 @@ class Eliminar(tk.Frame):
         self.canvas.itemconfigure(self.navbar_title, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_1, state='hidden')
         self.canvas.itemconfigure(self.navbar_subtitle_2, state='hidden')
+
+    def deleteuser(self):
+        usuario=self.input_cedula.get()
+        if delete_users(usuario):
+            messagebox.showinfo("Éxito", "Usuario Eliminado Satisfactoriamente.")
+        else:
+            messagebox.showerror("Error", "Usuario no en la Base de datos por favor Verifique.")
+
+    
         
 #Clase para modificar
 class Modificar(tk.Frame):
@@ -507,7 +518,11 @@ class Modificar(tk.Frame):
         nombre=self.input_nombre.get()
         password=self.input_password.get()
 
-        print(dni,nombre,password)
+        if update_users(dni,nombre,password):
+            messagebox.showinfo("Éxito", "Usuario actualizado exitosamente.")
+        else:
+            messagebox.showerror("Error", "Error al actualizar el Usuario verifique Datos.")
+            pass
         
 
 # Ejecutar la aplicación
