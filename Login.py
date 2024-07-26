@@ -2,6 +2,7 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage
 from Library.librerias import *
 from Vistas.R_selection import *
+from Register import show_registrar_window
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -144,12 +145,19 @@ button_1 = Button(
     command=lambda:recoger_datos(),
     relief="flat"
 )
-button_1.place(
-    x=616.0,
-    y=665.0,
-    width=130.0,
-    height=40.0
+button_1.place(x=512.0, y=665.0, width=130.0, height=40.0)
+
+button_image_2 = tk.PhotoImage(file=relative_to_assets("L_registrar.png"))
+
+button_2 = tk.Button(
+    image=button_image_2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=lambda: {window.destroy(), show_registrar_window()},
+    relief="flat"
 )
+button_2.place(x=728.0, y=665.0, width=130.0, height=40.0)
+
 #---------------------------------------
 # Deshabilitar la capacidad de redimensionar la ventana
 window.resizable(False, False)
