@@ -892,7 +892,6 @@ class Modificar(tk.Frame):
         descripcion = self.text_area.get("1.0", "end-1c")
 
         if update_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
-            print(nombre,tipo,peso,altura,sexo,descripcion)
             #Limpia el formulario
             self.nombre.delete(0, 'end')
             self.tipos_de_pokemones.set('') 
