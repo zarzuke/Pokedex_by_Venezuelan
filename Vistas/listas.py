@@ -233,102 +233,103 @@ def box_click(event):
         tree.item(item, tags=('checked',))
     elif 'checked' in tags:
         tree.item(item, tags=('unchecked',))
-        
-# Create window
-root = tk.Tk()
-root.geometry("1366x768")
 
-frame = tk.Frame(root)
-frame.pack(padx=10, pady=10, fill='both', expand=True)
+def main():       
+    # Create window
+    root = tk.Tk()
+    root.geometry("1366x768")
 
-# Add header
-header = tk.Label(frame, text="Pokemons", font=("PressStart2P", 16))
-header.pack(pady=10)
+    frame = tk.Frame(root)
+    frame.pack(padx=10, pady=10, fill='both', expand=True)
 
-# Load images into variables
-im_checked = resize_image(relative_to_assets('checked.png'), (15, 15))
-im_unchecked = resize_image(relative_to_assets('unchecked.png'), (15, 15))
-im_tristate = resize_image(relative_to_assets('tristate.png'), (15, 15))
+    # Add header
+    header = tk.Label(frame, text="Pokemons", font=("PressStart2P", 16))
+    header.pack(pady=10)
 
-# Create style for Treeview and scrollbar
-style = ttk.Style()
-style.theme_use('alt')
-style.configure("mystyle.Treeview", 
-                highlightthickness=0, 
-                bd=0, 
-                font=('PressStart2P', 11),  
-                background="#D3D3D3",  
-                foreground="black",    
-                rowheight=25)
-          
-style.configure("mystyle.Treeview.Heading", 
-                font=('PressStart2P', 13,),  
-                background="#DF3535",          
-                foreground="black") 
-           
-style.map("mystyle.Treeview.Heading", 
-            background=[("active", "#DF3535")], 
-            foreground=[("active", "black")])
+    # Load images into variables
+    im_checked = resize_image(relative_to_assets('checked.png'), (15, 15))
+    im_unchecked = resize_image(relative_to_assets('unchecked.png'), (15, 15))
+    im_tristate = resize_image(relative_to_assets('tristate.png'), (15, 15))
 
-style.map("mystyle.Treeview", 
-            background=[("selected", "#F5A89A")],  
-            foreground=[("selected", "black")])  
-  
-style.configure("mystyle.Vertical.TScrollbar",
-                gripcount=0,
-                background="#DF3535",
-                arrowcolor="black")
+    # Create style for Treeview and scrollbar
+    style = ttk.Style()
+    style.theme_use('alt')
+    style.configure("mystyle.Treeview", 
+                    highlightthickness=0, 
+                    bd=0, 
+                    font=('PressStart2P', 11),  
+                    background="#D3D3D3",  
+                    foreground="black",    
+                    rowheight=25)
+            
+    style.configure("mystyle.Treeview.Heading", 
+                    font=('PressStart2P', 13,),  
+                    background="#DF3535",          
+                    foreground="black") 
+            
+    style.map("mystyle.Treeview.Heading", 
+                background=[("active", "#DF3535")], 
+                foreground=[("active", "black")])
 
-style.map("mystyle.Vertical.TScrollbar",
-            background=[("active", "#DF3535"), ("pressed", "#DF3535")],
-            arrowcolor=[("active", "black"), ("pressed", "black")])
+    style.map("mystyle.Treeview", 
+                background=[("selected", "#F5A89A")],  
+                foreground=[("selected", "black")])  
+    
+    style.configure("mystyle.Vertical.TScrollbar",
+                    gripcount=0,
+                    background="#DF3535",
+                    arrowcolor="black")
 
-# Create Treeview
-treeview_canvas = tk.Canvas(frame)
-treeview_canvas.pack(side="top", fill="both", expand=True)
+    style.map("mystyle.Vertical.TScrollbar",
+                background=[("active", "#DF3535"), ("pressed", "#DF3535")],
+                arrowcolor=[("active", "black"), ("pressed", "black")])
 
-tree = ttk.Treeview(treeview_canvas, columns=('col1'), height=5, style="mystyle.Treeview")
-tree.heading('#0', text="ID")
-tree.column('#0', width=60)
-tree.heading('col1', text="Pokemons")
-tree.column('col1', width=100)
+    # Create Treeview
+    treeview_canvas = tk.Canvas(frame)
+    treeview_canvas.pack(side="top", fill="both", expand=True)
 
-# Create Scrollbar
-scrollbar = ttk.Scrollbar(treeview_canvas, orient="vertical", command=tree.yview, style="mystyle.Vertical.TScrollbar")
-scrollbar.pack(side='right', fill='both')
-tree.configure(yscrollcommand=scrollbar.set)
+    tree = ttk.Treeview(treeview_canvas, columns=('col1'), height=5, style="mystyle.Treeview")
+    tree.heading('#0', text="ID")
+    tree.column('#0', width=60)
+    tree.heading('col1', text="Pokemons")
+    tree.column('col1', width=100)
 
-tree.pack(side='right', fill='both')
+    # Create Scrollbar
+    scrollbar = ttk.Scrollbar(treeview_canvas, orient="vertical", command=tree.yview, style="mystyle.Vertical.TScrollbar")
+    scrollbar.pack(side='right', fill='both')
+    tree.configure(yscrollcommand=scrollbar.set)
 
-# Assign images to tags
-tree.tag_configure('unchecked', image=im_unchecked)
-tree.tag_configure('tristate', image=im_tristate)
-tree.tag_configure('checked', image=im_checked)
+    tree.pack(side='right', fill='both')
 
-# Assign actions to Treeview
-tree.bind('<Button-1>', box_click, True)
-tree.bind("<<TreeviewSelect>>", return_selection)
+    # Assign images to tags
+    tree.tag_configure('unchecked', image=im_unchecked)
+    tree.tag_configure('tristate', image=im_tristate)
+    tree.tag_configure('checked', image=im_checked)
 
-# Fill Treeview
-command_to_search_favs()
+    # Assign actions to Treeview
+    tree.bind('<Button-1>', box_click, True)
+    tree.bind("<<TreeviewSelect>>", return_selection)
 
-# Side canvas for Pokemon details
-canvas = tk.Canvas(treeview_canvas, bg="white", height=300)  # Added height for better layout
-canvas.pack(side="top", fill="both", expand=True)
+    # Fill Treeview
+    command_to_search_favs()
+
+    # Side canvas for Pokemon details
+    canvas = tk.Canvas(treeview_canvas, bg="white", height=300)  # Added height for better layout
+    canvas.pack(side="top", fill="both", expand=True)
 
 
-# Canvas for buttons
-buttons_canvas = tk.Canvas(root)
-buttons_canvas.pack(side="bottom", fill="x")
+    # Canvas for buttons
+    buttons_canvas = tk.Canvas(root)
+    buttons_canvas.pack(side="bottom", fill="x")
 
-# Create buttons
-Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_recharge)
-Button2 = tk.Button(buttons_canvas, text="Favoritos", width=10, command=command_to_search_favs)
-boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'", command=mostrar_texto_aleatorio)
+    # Create buttons
+    Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_recharge)
+    Button2 = tk.Button(buttons_canvas, text="Favoritos", width=10, command=command_to_search_favs)
+    boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'", command=mostrar_texto_aleatorio)
 
-# Position buttons below Treeview
-Button1.pack(side="right", anchor="se", padx=5)
-Button2.pack(side="right", anchor="se", padx=5)
-boton_ejecutar.pack(side="right", anchor="se", padx=5)
+    # Position buttons below Treeview
+    Button1.pack(side="right", anchor="se", padx=5)
+    Button2.pack(side="right", anchor="se", padx=5)
+    boton_ejecutar.pack(side="right", anchor="se", padx=5)
 
-root.mainloop()
+    root.mainloop()
