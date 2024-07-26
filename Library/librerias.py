@@ -55,19 +55,6 @@ def create_pokemon(nombre, tipo, peso, altura, sexo, desc):
     except Exception as e:
         print(f"Error al crear el Pokémon: {e}")
         return False
-
-def create_pokemon(nombre, tipo, peso, altura, sexo, desc):
-    try:
-        bd = sqlite3.connect("Library/pokimons.db")
-        cursor = bd.cursor()
-        query = "INSERT INTO pokemons (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc) VALUES (?, ?, ?, ?, ?, ?)"
-        cursor.execute(query, (nombre, tipo, peso, altura, sexo, desc))
-        bd.commit()
-        bd.close()
-        return True
-    except Exception as e:
-        print(f"Error al crear el Pokémon: {e}")
-        return False
     
 
 def update_pokemon(id, nombre, tipo, peso, altura, sexo, desc):
