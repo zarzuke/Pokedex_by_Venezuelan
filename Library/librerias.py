@@ -158,3 +158,13 @@ def search_favorite_pk(username):
     cursor.execute('SELECT usuarioPkF FROM usuarios WHERE usuarioNombre == ?',(username,))
     search = cursor.fetchone()
     return search
+
+def search_list(username):
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute('SELECT usuarioPkF FROM usuarios  WHERE usuarioNombre == ?',(username,))
+    search = cursor.fetchone()
+    return search
+
+search=search_list('Rafita-kun')
+print(search)
