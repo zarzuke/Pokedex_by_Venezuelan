@@ -42,3 +42,71 @@ def drop_sesion():
     cursor.execute("DELETE FROM sesion")
     bd.commit()
     bd.close()
+
+def create_pokemon(nombre, tipo, peso, altura, sexo, desc):
+    try:
+        bd = sqlite3.connect("Library/pokimons.db")
+        cursor = bd.cursor()
+        query = "INSERT INTO pokemons (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc) VALUES (?, ?, ?, ?, ?, ?)"
+        cursor.execute(query, (nombre, tipo, peso, altura, sexo, desc))
+        bd.commit()
+        bd.close()
+        return True
+    except Exception as e:
+        print(f"Error al crear el Pokémon: {e}")
+        return False
+
+def create_pokemon(nombre, tipo, peso, altura, sexo, desc):
+    try:
+        bd = sqlite3.connect("Library/pokimons.db")
+        cursor = bd.cursor()
+        query = "INSERT INTO pokemons (pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc) VALUES (?, ?, ?, ?, ?, ?)"
+        cursor.execute(query, (nombre, tipo, peso, altura, sexo, desc))
+        bd.commit()
+        bd.close()
+        return True
+    except Exception as e:
+        print(f"Error al crear el Pokémon: {e}")
+        return False
+    
+
+def update_pokemon(id, nombre, tipo, peso, altura, sexo, desc):
+    try:
+        bd = sqlite3.connect("Library/pokimons.db")
+        cursor = bd.cursor()
+        # Consulta para ver si existe el poke
+        cursor.execute("SELECT pkId FROM pokemons WHERE pkId = ?", (id,))
+        existing_pokemon = cursor.fetchone()
+        if existing_pokemon:
+            query = "UPDATE pokemons SET pkNombre = ?, pkTipo = ?, pkPeso = ?, pkAltura = ?, pkSexo = ?, pkDesc = ? WHERE pkId = ?"
+            cursor.execute(query, (nombre, tipo, peso, altura, sexo, desc, id))
+            print(f"Pokémon con ID {id} actualizado exitosamente.")
+            bd.commit()
+        else:
+            print(f"Pokémon con ID {id} no existe.")
+        
+        bd.close()
+        return True
+    except Exception as e:
+        print(f"Error al actualizar el Pokémon: {e}")
+        return False
+
+
+def delete_pokemon(id):
+    try:
+        bd = sqlite3.connect("Library/pokimons.db")
+        cursor = bd.cursor()
+        # Consulta para ver si existe el poke
+        cursor.execute("SELECT pkId FROM pokemons WHERE pkId = ?", (id,))
+        existing_pokemon = cursor.fetchone()
+        if existing_pokemon:
+            cursor.execute("DELETE FROM pokemons WHERE pkId = ?", (id,))
+            print(f"Pokémon con ID {id} eliminado exitosamente.")
+            bd.commit()
+        else:
+            print(f"Pokémon con ID {id} no existe.")
+        bd.close()
+        return True
+    except Exception as e:
+        print(f"Error al eliminar el Pokémon: {e}")
+        return False
