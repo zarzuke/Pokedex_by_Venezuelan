@@ -15,7 +15,6 @@ def recoger_datos():
     usuario = username.get()
     contrasena = password.get()
     if login(usuario, contrasena):
-        messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
         window.destroy()
         open_new()
 
