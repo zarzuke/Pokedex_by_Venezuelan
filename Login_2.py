@@ -46,7 +46,17 @@ class Login(tk.Frame):
         self.controller = controller
         self.config(bg="#FFFFFF")
         self.create_widgets()
+    """def recoger_datos(self):
+    usuario = username.get()
+    contrasena = password.get()
+    if login(usuario, contrasena):
+        messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
+        window.destroy()
+        open_new()
 
+    else:
+        messagebox.showerror("Error", "Usuario o contraseña incorrectos")
+"""
     def create_widgets(self):
         self.images = {}
         canvas = tk.Canvas(
@@ -62,43 +72,123 @@ class Login(tk.Frame):
 
         # Cargar y almacenar las imágenes
         
-        self.images["registrar"] = tk.PhotoImage(file=relative_to_assets("main_boton_registrar.png"))
+        self.images["registrar"] = tk.PhotoImage(file=relative_to_assets("L_registrar.png"))
         tk.Button(
             self,
             image=self.images["registrar"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.controller.show_frame(Registrar),
+            command=lambda: {self.hide_widgets(),self.controller.show_frame(Registrar)},
             relief="flat"
-        ).place(x=1.0, y=57.0, width=213.0, height=58.0)
-
-        # Añadir textos
-        canvas.create_text(
-            600.0,
-            141.0,
-            anchor="nw",
-            text="Bienvenido",
-            fill="#191919",
-            font=("Inter", 64 * -1)
+        ).place(x=728.0, y=665.0, width=130.0, height=40.0)
+        #Imagen superior de la pokebola
+        self.image_image_1 = PhotoImage(
+            file=relative_to_assets("pokebola.png"))
+        self.image_1 = canvas.create_image(
+            678.0,
+            234.0,
+            image=self.image_image_1
         )
+        #---------------------------------------
+        #Frase superior
         canvas.create_text(
-            226.0,
-            5.0,
+            530.0,
+            446.0,
             anchor="nw",
-            text="Pokédex",
+            text="Inicio de sesión",
             fill="#000000",
-            font=("Inter", 40 * -1)
+            font=("Press Start 2P", 20 * -1)
+        )
+        #---------------------------------------
+        #Estilos de la imagen para el input (Usuario)
+       
+        self.entry_image_1 = PhotoImage(
+            file=relative_to_assets("input_usuario.png"))
+        self.entry_bg_1 = canvas.create_image(
+            683.0,
+            525.0,
+            image=self.entry_image_1
+        )
+        # ---------------------------------------
+        # Estilos del input (Usuario)
+        self.username = tk.Entry(
+            self,
+            bd=0,
+            bg="#FFFFFF",
+            fg="#000716",
+            highlightthickness=0,
+            relief="flat"
+        )
+        self.username.place(
+            x=436.0,
+            y=505.0,
+            width=494.0,
+            height=38.0
+        )
+        canvas.create_text(
+            445.0,
+            492.0,
+            anchor="nw",
+            text="Usuario",
+            fill="#000000",
+            font=("Press Start 2P", 15 * -1)
+        )
+        # ---------------------------------------
+        # Estilos del input (Contraseña)
+        self.password = tk.Entry(
+            self,
+            bd=0,
+            bg="#FFFFFF",
+            fg="#000716",
+            show="*",
+            highlightthickness=0,
+            relief="flat"
+        )
+        self.password.place(
+            x=436.0,
+            y=585.0,
+            width=494.0,
+            height=38.0
+        )
+        canvas.create_text(
+            445.0,
+            570.0,
+            anchor="nw",
+            text="Contraseña",
+            fill="#000000",
+            font=("Press Start 2P", 15 * -1)
         )
 
-        
-        canvas.create_text(
-            26.0,
-            31.0,
-            anchor="nw",
-            text="Admin",
-            fill="#000000",
-            font=("Inter", 14 * -1)
+        # Dibuja una línea debajo del campo de contraseña
+        canvas.create_line(
+            436.0, 623.0,  # Coordenadas x, y del inicio de la línea
+            930.0, 623.0,  # Coordenadas x, y del final de la línea
+            fill="#888480",# Color de la línea
+            width=0.5      # Grosor de la línea
         )
+        #---------------------------------------
+        #Boton para iniciar sesión
+        self.button_image_1 = PhotoImage(
+            file=relative_to_assets("Login_button.png"))
+
+        self.button_1 = Button(
+            image=self.button_image_1,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda:print("boton"),#recoger_datos(),
+            relief="flat"
+        )
+        self.button_1.place(
+            x=512.0,
+            y=665.0,
+            width=130.0,
+            height=40.0
+        )
+    def hide_widgets(self):
+        self.button_1.place_forget()
+
+            
+
 
 class Registrar(tk.Frame):
     def __init__(self, parent, controller):
