@@ -156,6 +156,7 @@ button_2 = tk.Button(
     command=lambda: {window.destroy(), show_registrar_window()},
     relief="flat"
 )
+
 button_2.place(x=728.0, y=665.0, width=130.0, height=40.0)
 
 #---------------------------------------
