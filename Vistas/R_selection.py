@@ -9,11 +9,11 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 class selection():
     def open_new(self):
         self.window.destroy()
-        App().show_frame()
+        Balls().show_frame()
         
     def open_U_main(self):
         self.window.destroy()
-        M_Usuarios.open()
+        Users().show_frame()
         
     def open(self):
         def relative_to_assets(path: str) -> Path:
@@ -100,6 +100,3 @@ class selection():
         
         self.window.resizable(False, False)
         self.window.mainloop()
-
-""" selection=selection()
-selection.open() """
