@@ -763,7 +763,11 @@ class Modificar(tk.Frame):
                         padding= "9",
                         ) # padding para agrandar la altura del select
         
-        pokemon_types = {"Normal": 1, "Lucha": 2, "Volador": 3, "Veneno": 4, "Tierra": 5, "Roca": 6, "Bicho": 7, "Fantasma": 8, "Fuego": 9, "Agua": 10, "Planta": 11, "Electrico": 12, "Psiquico": 13, "Hielo": 14, "Dragon": 15}
+        pokemon_types = [
+        "Agua", "Bicho", "Dragón", "Eléctrico", "Fuego", "Hada", "Hielo",
+        "Lucha", "Normal", "Planta", "Psíquico", "Roca", "Siniestro", "Tierra",
+        "Veneno", "Volador"
+        ]
         
         self.tipos_de_pokemones = ttk.Combobox(self, values=pokemon_types, state="readonly", width=30, font=("Montserrat Medium", 10))
         self.tipos_de_pokemones.place(x=520.0, y=181.5)
@@ -884,24 +888,31 @@ class Modificar(tk.Frame):
         selection().open() 
 
     def mod_pokemon(self):
+        pokemon_types = {"Normal": 1, "Lucha": 2, "Volador": 3, "Veneno": 4, "Tierra": 5, "Roca": 6, "Bicho": 7, "Fantasma": 8, "Fuego": 9, "Agua": 10, "Planta": 11, "Electrico": 12, "Psiquico": 13, "Hielo": 14, "Dragon": 15}
+        tipo_combobox = self.tipos_de_pokemones.get()
+        tipo = 0
+        for values in pokemon_types.keys():
+            if values == tipo_combobox:
+                tipo = pokemon_types[tipo_combobox]
         nombre = self.nombre.get()
-        tipo = self.tipos_de_pokemones.get()
         peso = float(self.peso.get()) if self.peso.get() else 0
         altura = float(self.altura.get()) if self.altura.get() else 0
         sexo = self.pokemon_sex.get(self.tipos_de_sexo.get()) 
         descripcion = self.text_area.get("1.0", "end-1c")
-
-        if update_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
-            #Limpia el formulario
-            self.nombre.delete(0, 'end')
-            self.tipos_de_pokemones.set('') 
-            self.peso.delete(0, 'end')
-            self.altura.delete(0, 'end')
-            self.tipos_de_sexo.set('')
-            self.text_area.delete("1.0", "end")
-            messagebox.showinfo("Éxito", "Pokémon Actualizado exitosamente")
+        if nombre != "" and tipo != 0 and sexo != "" and descripcion != "":
+            if update_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
+                #Limpia el formulario
+                self.nombre.delete(0, 'end')
+                self.tipos_de_pokemones.set('') 
+                self.peso.delete(0, 'end')
+                self.altura.delete(0, 'end')
+                self.tipos_de_sexo.set('')
+                self.text_area.delete("1.0", "end")
+                messagebox.showinfo("Éxito", "Pokémon Actualizado exitosamente")
+            else:
+                messagebox.showerror("Error", "Error al Actualizar pokemon el Pokémon")
         else:
-            messagebox.showerror("Error", "Error al Actualizar pokemon el Pokémon")
+            messagebox.showerror("Error", "Debes completar todos los campos para poder enviar el formulario!")
 
 class Listado(tk.Frame):
     pass
