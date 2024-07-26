@@ -101,13 +101,13 @@ def search_all_pk():
 def save_pk(username,pks):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = db.cursor()
-    cursor.execute("UPDATE usuarios SET pkFavs == ? WHERE usuarioNombre == ?",(pks,username))
+    cursor.execute("UPDATE usuarios SET usuarioPkF == ? WHERE usuarioNombre == ?",(pks,username))
     db.commit()
     db.close() 
             
 def search_favorite_pk(username):
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = db.cursor()
-    cursor.execute('SELECT pkFavs FROM usuarios WHERE usuarioNombre == ?',(username,))
+    cursor.execute('SELECT usuarioPkF FROM usuarios WHERE usuarioNombre == ?',(username,))
     search = cursor.fetchone()
     return search
