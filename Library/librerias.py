@@ -36,9 +36,6 @@ def search_users(username):
     bd.close()
     return search
 
-    
-
-
 def recoger_sesion():
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
@@ -53,7 +50,22 @@ def drop_sesion():
     cursor.execute("DELETE FROM sesion")
     bd.commit()
     bd.close()
-   
+
+def update_users(cedula,name,passw):
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("UPDATE usuarios SET usuarioNombre=?, usuarioPsw=? WHERE cedula == ?",(name,passw,cedula))
+    bd.commit()
+    bd.close()
+    
+    
+def delete_users(cedula):
+    bd = sqlite3.connect("Library/pokimons.db")
+    cursor = bd.cursor()
+    cursor.execute("DELETE FROM usuarios WHERE cedula == ?",(cedula,))
+    bd.commit()
+    bd.close()
+
 def search_all_users():
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
