@@ -15,6 +15,7 @@ def recoger_datos():
     usuario = username.get()
     contrasena = password.get()
     if login(usuario, contrasena):
+        messagebox.showinfo("Éxito", "Inicio de sesión exitoso")
         window.destroy()
         open_new(usuario)
 
@@ -144,7 +145,7 @@ button_1 = Button(
     command=lambda:recoger_datos(),
     relief="flat"
 )
-button_1.place(x=512.0, y=665.0, width=130.0, height=40.0)
+button_1.place(x=728.0, y=665.0, width=130.0, height=40.0)
 
 button_image_2 = tk.PhotoImage(file=relative_to_assets("L_registrar.png"))
 
@@ -156,7 +157,7 @@ button_2 = tk.Button(
     relief="flat"
 )
 
-button_2.place(x=728.0, y=665.0, width=130.0, height=40.0)
+button_2.place(x=512.0, y=666.0, width=130.0, height=46.0)
 
 #---------------------------------------
 # Deshabilitar la capacidad de redimensionar la ventana

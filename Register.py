@@ -9,6 +9,9 @@ ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+# Función para evaluar los inputs que solo permitan números
+def validate_number_input(text):
+    return text.isdigit() or text == ""
 
 def show_registrar_window():
     registrar_window = Tk()
@@ -33,6 +36,9 @@ def show_registrar_window():
     images["Bordes"] = PhotoImage(file=relative_to_assets("Bordes.png"))
     canvas.create_image(683.0, 389.0, image=images["Bordes"])
 
+    # Registrar la función de validación
+    validate_command = registrar_window.register(validate_number_input)
+
     # Entradas
     cedula = Entry(
         registrar_window,
@@ -41,7 +47,9 @@ def show_registrar_window():
         fg="#000716",
         highlightthickness=0,
         borderwidth=0.5,
-        relief="solid"
+        relief="solid",
+        validate="key",
+        validatecommand=(validate_command, "%P")
     )
     cedula.place(x=507.0, y=349.0, width=352.0, height=38.0)
 
@@ -110,7 +118,7 @@ def show_registrar_window():
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: {registrar_window.destroy()},  # Simplemente cierra la ventana actual
+        command=lambda: registrar_window.destroy(),  # Simplemente cierra la ventana actual
         relief="flat"
     ).place(x=497.0, y=565.0, width=130.0, height=40.0)
 
@@ -121,16 +129,16 @@ def show_registrar_window():
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda:register_user(),  # Aquí se puede agregar la funcionalidad para registrar
+        command=lambda: register_user(),  # Aquí se puede agregar la funcionalidad para registrar
         relief="flat"
     ).place(x=739.0, y=565.0, width=130.0, height=40.0)
 
     def register_user():
-        nuser=nombre.get()
-        dni=cedula.get()
-        pw=clave.get()
-        rol=1
-        if signup(nuser,pw,rol,dni):
+        nuser = nombre.get()
+        dni = cedula.get()
+        pw = clave.get()
+        rol = 1
+        if signup(nuser, pw, rol, dni):
             messagebox.showinfo("Éxito", "Registro de usuario Exitoso")
         else:
             messagebox.showinfo("Éxito", "Registro Fallido usuario ya registrado")
