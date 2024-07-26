@@ -123,40 +123,6 @@ class Main_PW(tk.Frame):
             relief="flat"
         ).place(x=1.0, y=231.0, width=213.0, height=58.0)
 
-        # Añadir textos
-        canvas.create_text(
-            600.0,
-            141.0,
-            anchor="nw",
-            text="Bienvenido",
-            fill="#191919",
-            font=("Inter", 64 * -1)
-        )
-        canvas.create_text(
-            226.0,
-            5.0,
-            anchor="nw",
-            text="Pokédex",
-            fill="#000000",
-            font=("Inter", 40 * -1)
-        )
-        canvas.create_text(
-            26.0,
-            9.0,
-            anchor="nw",
-            text=self.usuario,
-            fill="#000000",
-            font=("Inter", 18 * -1)
-        )
-        canvas.create_text(
-            26.0,
-            31.0,
-            anchor="nw",
-            text="Admin",
-            fill="#000000",
-            font=("Inter", 14 * -1)
-        )
-
 class Registrar(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
