@@ -6,7 +6,7 @@ import sqlite3
 import random
 from pathlib import Path
 from Library.librerias import *
-def main():  
+def show_pokemons():  
     global tree
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -67,7 +67,8 @@ def main():
             canvas.create_rectangle(500, 10, 1100, 600, fill="lightblue")
 
             # Crear etiquetas de información
-            canvas.create_text(80, 80, text=nombre, anchor="w", font=("Arial", 28))
+            
+            canvas.create_text(30,30,anchor="nw",text=nombre,fill="#000000",font=("Montserrat Medium", 25 ))          
             canvas.create_text(510, 100, text="Tipo:"+ tipo, anchor="w", font=("Arial", 28))
             canvas.create_text(800, 100, text="Altura:"+ str(altura), anchor="w", font=("Arial", 28))
             canvas.create_text(510, 150, text="Peso:"+ str(peso), anchor="w", font=("Arial", 28))

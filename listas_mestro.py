@@ -1,3 +1,3 @@
-from Vistas.listas import *
+from Vistas.listas import show_pokemons
 
-main() 
+show_pokemons() 

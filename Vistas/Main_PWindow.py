@@ -1,8 +1,11 @@
 import tkinter as tk
 from pathlib import Path
 from tkinter import ttk, messagebox
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 from Library.librerias import recoger_sesion, drop_sesion
 from Library.db_pokimon import  create_pokemon,delete_pokemon,update_pokemon
+from Vistas.listas import show_pokemons
+import random
 
 # Rutas relativas de las imágenes
 ASSETS_PATH = Path(r"C:\Pokedex_by_Venezuelan\assets")
@@ -123,7 +126,7 @@ class Main_PW(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=show_pokemons,
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
@@ -282,7 +285,7 @@ class Registrar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=show_pokemons,
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
@@ -586,7 +589,7 @@ class Eliminar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=show_pokemons,
             relief="flat"
         )
         self.button_listado.place(x=1.0, y=115.0, width=213.0, height=58.0)
@@ -753,7 +756,7 @@ class Modificar(tk.Frame):
             image=self.images["button_image_3"],
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
+            command=show_pokemons,
             relief="flat"
         ).place(x=1.0, y=115.0, width=213.0, height=58.0)
 
