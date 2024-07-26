@@ -46,7 +46,6 @@ def drop_sesion():
     
     
 #Funciones Para Lista Pokemons
-
 def search_pk(pokemon):
         bd = sqlite3.connect("Library/pokimons.db")
         cursor = bd.cursor()
