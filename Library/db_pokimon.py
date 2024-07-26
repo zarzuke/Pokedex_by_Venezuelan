@@ -35,7 +35,8 @@ def update_pokemon(pkNombre, pkTipo, pkPeso, pkAltura, pkSexo, pkDesc):
     cursor.execute("SELECT pkNombre FROM pokemons WHERE pknombre = ?", (pkNombre,))
     busqueda=()
     busqueda=cursor.fetchone()
-    if busqueda is not None:
+    print(busqueda)
+    if busqueda is None:
         conn.close()
         return False
     else:

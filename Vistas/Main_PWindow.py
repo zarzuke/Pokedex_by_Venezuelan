@@ -889,30 +889,53 @@ class Modificar(tk.Frame):
 
     def mod_pokemon(self):
         pokemon_types = {"Normal": 1, "Lucha": 2, "Volador": 3, "Veneno": 4, "Tierra": 5, "Roca": 6, "Bicho": 7, "Fantasma": 8, "Fuego": 9, "Agua": 10, "Planta": 11, "Electrico": 12, "Psiquico": 13, "Hielo": 14, "Dragon": 15}
+        
         tipo_combobox = self.tipos_de_pokemones.get()
         tipo = 0
         for values in pokemon_types.keys():
             if values == tipo_combobox:
                 tipo = pokemon_types[tipo_combobox]
-        nombre = self.nombre.get()
-        peso = float(self.peso.get()) if self.peso.get() else 0
-        altura = float(self.altura.get()) if self.altura.get() else 0
-        sexo = self.pokemon_sex.get(self.tipos_de_sexo.get()) 
-        descripcion = self.text_area.get("1.0", "end-1c")
-        if nombre != "" and tipo != 0 and sexo != "" and descripcion != "":
-            if update_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
-                #Limpia el formulario
-                self.nombre.delete(0, 'end')
-                self.tipos_de_pokemones.set('') 
-                self.peso.delete(0, 'end')
-                self.altura.delete(0, 'end')
-                self.tipos_de_sexo.set('')
-                self.text_area.delete("1.0", "end")
-                messagebox.showinfo("Éxito", "Pokémon Actualizado exitosamente")
-            else:
-                messagebox.showerror("Error", "Error al Actualizar pokemon el Pokémon")
+        nombre = self.nombre.get().strip()
+        peso = self.peso.get().strip()
+        altura = self.altura.get().strip()
+        sexo = self.tipos_de_sexo.get().strip()
+        descripcion = self.text_area.get("1.0", "end-1c").strip()
+
+        # Validaciones
+        if not nombre:
+            messagebox.showerror("Error", "El campo 'Nombre' es obligatorio.")
+            return
+        if sexo == None:
+            messagebox.showerror("Error", "El campo 'Sexo' es obligatorio.")
+            return
+        if not descripcion:
+            messagebox.showerror("Error", "El campo 'Descripción' es obligatorio.")
+            return
+
+        try:
+            peso = float(peso) if peso else 0
+        except ValueError:
+            messagebox.showerror("Error", "El campo 'Peso' debe ser un número válido.")
+            return
+
+        try:
+            altura = float(altura) if altura else 0
+        except ValueError:
+            messagebox.showerror("Error", "El campo 'Altura' debe ser un número válido.")
+            return
+
+        # Intentar actualizar el Pokémon
+        if update_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
+            # Limpiar el formulario
+            self.nombre.delete(0, 'end')
+            self.tipos_de_pokemones.set('')
+            self.peso.delete(0, 'end')
+            self.altura.delete(0, 'end')
+            self.tipos_de_sexo.set('')
+            self.text_area.delete("1.0", "end")
+            messagebox.showinfo("Éxito", "Pokémon actualizado exitosamente.")
         else:
-            messagebox.showerror("Error", "Debes completar todos los campos para poder enviar el formulario!")
+            messagebox.showerror("Error", "Error al actualizar el Pokémon.")
 
 class Listado(tk.Frame):
     pass
