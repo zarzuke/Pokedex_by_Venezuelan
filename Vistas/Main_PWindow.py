@@ -330,8 +330,8 @@ class Registrar(tk.Frame):
                         ) # padding para agrandar la altura del select
         
         pokemon_types = [
-        "Agua", "Bicho", "Dragón", "Eléctrico", "Fuego", "Hada", "Hielo",
-        "Lucha", "Normal", "Planta", "Psíquico", "Roca", "Siniestro", "Tierra",
+        "Agua", "Bicho", "Dragón", "Electrico", "Fuego", "Hielo",
+        "Lucha", "Normal", "Planta", "Psiquico", "Roca", "Tierra",
         "Veneno", "Volador"
         ]
         
@@ -436,12 +436,46 @@ class Registrar(tk.Frame):
         
     def add_pokemon(self):
         nombre = self.nombre.get()
-        tipo = self.tipos_de_pokemones.get()
         peso = float(self.peso.get()) if self.peso.get() else 0
         altura = float(self.altura.get()) if self.altura.get() else 0
         sexo = self.pokemon_sex.get(self.tipos_de_sexo.get()) 
         descripcion = self.text_area.get("1.0", "end-1c")
+        # Diccionario de tipos de Pokémon
+        pokemon_types = {
+            "Normal": 1, "Lucha": 2, "Volador": 3, "Veneno": 4, "Tierra": 5, "Roca": 6,
+            "Bicho": 7, "Fantasma": 8, "Fuego": 9, "Agua": 10, "Planta": 11, "Electrico": 12,
+            "Psiquico": 13, "Hielo": 14, "Dragón": 15
+        }
 
+        # Obtener el tipo seleccionado del combobox
+        tipo_combobox = self.tipos_de_pokemones.get()
+        print(tipo_combobox)
+        # Obtener el valor numérico del tipo de Pokémon seleccionado
+        tipo = pokemon_types.get(tipo_combobox, 0) 
+
+        # Validaciones
+        if not nombre:
+            messagebox.showerror("Error", "El campo 'Nombre' es obligatorio.")
+            return
+        if sexo == None:
+            messagebox.showerror("Error", "El campo 'Sexo' es obligatorio.")
+            return
+        if not descripcion:
+            messagebox.showerror("Error", "El campo 'Descripción' es obligatorio.")
+            return
+
+        try:
+            peso = float(peso) if peso else 0
+        except ValueError:
+            messagebox.showerror("Error", "El campo 'Peso' debe ser un número válido.")
+            return
+
+        try:
+            altura = float(altura) if altura else 0
+        except ValueError:
+            messagebox.showerror("Error", "El campo 'Altura' debe ser un número válido.")
+            return
+        
         if create_pokemon(nombre, tipo, peso, altura, sexo, descripcion):
             #Limpia el formulario
             self.nombre.delete(0, 'end')
@@ -764,7 +798,7 @@ class Modificar(tk.Frame):
                         ) # padding para agrandar la altura del select
         
         pokemon_types = [
-        "Agua", "Bicho", "Dragón", "Eléctrico", "Fuego", "Hada", "Hielo",
+        "Agua", "Bicho", "Dragón", "Electrico", "Fuego", "Hada", "Hielo",
         "Lucha", "Normal", "Planta", "Psíquico", "Roca", "Siniestro", "Tierra",
         "Veneno", "Volador"
         ]

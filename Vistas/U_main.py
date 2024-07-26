@@ -345,6 +345,16 @@ class Modificar(tk.Frame):
         self.config(bg="#FFFFFF")
         self.create_widgets()
 
+
+    def validate_number_input(self,text):
+        if text == "":
+            return True
+        try:
+            float(text)
+            return True
+        except ValueError:
+            return False
+
     def create_widgets(self):
         self.images = {}
         self.canvas = tk.Canvas(
@@ -357,6 +367,8 @@ class Modificar(tk.Frame):
             relief="ridge"
         )
         self.canvas.place(x=0, y=0)
+
+        validate_number = self.register(self.validate_number_input)
         
         #Imagenes generales para el relleno
         self.image_image_1 = PhotoImage(
@@ -485,9 +497,18 @@ class Modificar(tk.Frame):
             image=self.images["button_modificar_usuario"],
             borderwidth=0,
             highlightthickness=0,
-            relief="flat"
+            relief="flat",
+            command=lambda:self.modify_user()
         )
         self.button_volver.place(x=263.0, y=403.0, width=130.0, height=40.0)
+
+    def modify_user(self):
+        dni=self.input_cedula.get()
+        nombre=self.input_nombre.get()
+        password=self.input_password.get()
+
+        print(dni,nombre,password)
+        
 
 # Ejecutar la aplicación
 if __name__ == "__main__":

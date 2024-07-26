@@ -36,6 +36,9 @@ def search_users(username):
     bd.close()
     return search
 
+    
+
+
 def recoger_sesion():
     bd = sqlite3.connect("Library/pokimons.db")
     cursor = bd.cursor()
