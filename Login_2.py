@@ -1,7 +1,6 @@
 import tkinter as tk
-from tkinter import Tk, Canvas, Button, PhotoImage
+from tkinter import Tk, Canvas, Button, PhotoImage,Entry
 from pathlib import Path
-from tkinter import ttk
 from Library.librerias import recoger_sesion, drop_sesion
 
 # Rutas relativas de las imágenes
@@ -46,7 +45,8 @@ class Login(tk.Frame):
         self.controller = controller
         self.config(bg="#FFFFFF")
         self.create_widgets()
-    """def recoger_datos(self):
+    """
+    def recoger_datos(self):
     usuario = username.get()
     contrasena = password.get()
     if login(usuario, contrasena):
@@ -56,7 +56,7 @@ class Login(tk.Frame):
 
     else:
         messagebox.showerror("Error", "Usuario o contraseña incorrectos")
-"""
+        """
     def create_widgets(self):
         self.images = {}
         canvas = tk.Canvas(
