@@ -6,17 +6,10 @@ import sqlite3
 import random
 from pathlib import Path
 from Library.librerias import *
-<<<<<<< Updated upstream
 def main():  
     global tree
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
-=======
-OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
-global tree
-
->>>>>>> Stashed changes
 
     def relative_to_assets(path: str) -> Path:
         return ASSETS_PATH / Path(path)
@@ -25,7 +18,6 @@ def main():
     # Global image reference to prevent garbage collection
     global_image_ref = None
 
-<<<<<<< Updated upstream
     # Global image reference to prevent garbage collection
     global_image_ref = None
 
@@ -35,14 +27,6 @@ def main():
         """
         Redimensiona la imagen a una altura base, preservando la relación de aspecto.
 
-=======
-    # Changes to the Canvas Pokemon
-
-    def resize_image_aspect_ratio(path, base_height):
-        """
-        Redimensiona la imagen a una altura base, preservando la relación de aspecto.
-
->>>>>>> Stashed changes
         :param path: Ruta de la imagen
         :param base_height: Altura base deseada
         :return: Objeto PhotoImage redimensionado
@@ -54,61 +38,11 @@ def main():
         image = image.resize((base_width, base_height), Image.LANCZOS)  # Redimensiona la imagen
         return ImageTk.PhotoImage(image)  # Convierte a un objeto PhotoImage para usar en Tkinter
 
-<<<<<<< Updated upstream
 #funcion para recoger valores del item seleccionado
-=======
-
-    def mostrar_texto_aleatorio():
-        global global_image_ref  # Asegúrate de que la imagen no sea recolectada por el garbage collector
-
-        nombre="Jianxin"
-        tipo = "planta"
-        altura = "1.6"
-        peso = "20"
-        sexo = "femenino"
-        descripcion="""sumary_line
-        Certainly! In Wuthering Waves, Jianxin is a 5★ rarity character from the Aero element who wields Gauntlets. She follows the path of a Taoist monk and is the successor of Fengyiquan, dedicating her life to mastering the ultimate martial art1. Jianxin’s versatility allows her to flex into various roles, including main DPS, sub-DPS, or support. Here are some key points about her:
-        """
-        prin=len(descripcion)
-        print(prin)
-
-        # Redimensionar la imagen a 300 píxeles de altura manteniendo la proporción
-        render = resize_image_aspect_ratio(relative_to_assets("j.png"), 500)
-
-        # Guarda la referencia global de la imagen
-        global_image_ref = render
-
-        # Borra el contenido actual del Canvas
-        canvas.delete("all")
-
-        # Mostrar la imagen redimensionada en el Canvas
-        canvas.create_image(0, 60, anchor="nw", image=render)
-
-        # Crear etiquetas
-        nombre_pokemon = nombre
-        etiqueta_nombre = tk.Label(canvas, text=nombre_pokemon, font=("Helvetica", 14, "bold"), bg="white")
-        etiqueta_nombre.place(x=10, y=10)  # Ajustar las coordenadas según la preferencia
-
-        canvas.create_rectangle(500, 10, 1100, 600, fill="lightblue")
-
-        # Crear etiquetas de información
-        canvas.create_text(510, 100, text="Tipo:"+ tipo, anchor="w", font=("Arial", 28))
-        canvas.create_text(800, 100, text="Altura:"+ altura, anchor="w", font=("Arial", 28))
-        canvas.create_text(510, 150, text="Peso:"+ peso, anchor="w", font=("Arial", 28))
-        canvas.create_text(800, 150, text="Sexo:"+ sexo, anchor="w", font=("Arial", 28))
-        text_area = tk.Text(bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, wrap=tk.WORD,)
-        text_area.place(x=535.0, y=382.0, width=550.0, height=238.0)  
-        text_area.insert(tk.END,descripcion)
-        text_area.config(font=("Montserrat Medium", 15), padx=10, pady=10, borderwidth=0.5, relief="solid",state="disabled")
-
-    # SQL function to search for a specific Pokemon
-    #funcion para recoger valores del item seleccionado
->>>>>>> Stashed changes
     def return_selection(event):
         values = tree.focus()
         pokemon = tree.item(values,'values')
         search = search_pk(pokemon)
-<<<<<<< Updated upstream
         def mostrar_texto_aleatorio(search):
             global global_image_ref  # Asegúrate de que la imagen no sea recolectada por el garbage collector
             values = search[0]
@@ -148,9 +82,6 @@ def main():
         else:
             pass
         
-=======
-
->>>>>>> Stashed changes
     # Convertir el id al imprimir en treeview
     def get_pk_id(id):
         if id <10:
@@ -161,7 +92,6 @@ def main():
             return str(id)
     def cadena_a_lista(cadena):
         # Utiliza el método split() para dividir la cadena en una lista
-<<<<<<< Updated upstream
         if cadena:
             return cadena.split(',')
         else:
@@ -173,12 +103,6 @@ def main():
             return ','.join(lista)
         else:
             pass
-=======
-        return cadena.split(',')
-    def lista_a_cadena(lista):
-        # Utiliza la función join() para unir los elementos de la lista con comas
-        return ','.join(lista)
->>>>>>> Stashed changes
 
     # Funcion para guardar la lista personal 
     def command_to_search_favs():
@@ -204,13 +128,8 @@ def main():
                 return favorite_list
     
             fav = favorite_items()
-<<<<<<< Updated upstream
             if fav:
                 value = lista_a_cadena(fav)
-=======
-            value = lista_a_cadena(fav)
-            if value:
->>>>>>> Stashed changes
                 save_pk('Rafita-kun',value)
             else:
                 pass
@@ -269,11 +188,6 @@ def main():
         search = search_all_pk()
         recharge_treeview(search,fav)
         
-<<<<<<< Updated upstream
-=======
-        Button2["state"] = "normal"
-
->>>>>>> Stashed changes
     #Guardar lista de favoritos
     def save_favorites():
         def favorite_items():
@@ -323,11 +237,7 @@ def main():
         elif 'checked' in tags:
             tree.item(item, tags=('unchecked',))
 
-<<<<<<< Updated upstream
         
-=======
-      
->>>>>>> Stashed changes
     # Create window
     root = tk.Tk()
     root.geometry("1366x768")
