@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 import sqlite3
 import random
 from pathlib import Path
-
+from Library.librerias import *
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
@@ -78,126 +78,152 @@ def mostrar_texto_aleatorio():
     text_area.config(font=("Montserrat Medium", 15), padx=10, pady=10, borderwidth=0.5, relief="solid",state="disabled")
 
 # SQL function to search for a specific Pokemon
-def search_pk(pokemon):
-    bd = sqlite3.connect("pokimons.db")
-    cursor = bd.cursor()
-    
-    search = []
-    
-    if pokemon:
-        for pk in pokemon:
-            cursor.execute(
-                """
-                SELECT p.pkId, p.pkNombre, t.tipoNombre, p.pkPeso, p.pkAltura, s.sexoNombre, p.pkDesc 
-                FROM pokemons AS p
-                INNER JOIN tipos AS t ON pkTipo == tipoId
-                INNER JOIN sexo AS s ON pkSexo == sexoId
-                WHERE p.pkNombre == ?
-                """,
-                (pk,)
-            )
-            search = cursor.fetchall()
-    
-    bd.close()
-    return search
+#funcion para recoger valores del item seleccionado
+def return_selection(event):
+    values = tree.focus()
+    pokemon = tree.item(values,'values')
+    search = search_pk(pokemon)
 
-# SQL function to retrieve all Pokemon information
-def search_all_pk():
-    bd = sqlite3.connect("pokimons.db")
-    cursor = bd.cursor()
-    cursor.execute(
-        """
-        SELECT p.pkId, p.pkNombre, t.tipoNombre, p.pkPeso, p.pkAltura, s.sexoNombre, p.pkDesc 
-        FROM pokemons AS p
-        INNER JOIN tipos AS t ON pkTipo == tipoId
-        INNER JOIN sexo AS s ON pkSexo == sexoId
-        ORDER BY p.pkId ASC
-        """
-    )
-    search = cursor.fetchall()
-    bd.close()
-    return search
-
-# Function to save the personal list
-def favorite_items():
-    def get_all_items_with_values(tree):
-        items = tree.get_children()
-        all_items = []
-        for item in items:
-            all_items.append((item, tree.item(item, 'values'), tree.item(item, 'tags')[0]))
-        return all_items
-
-    # Save only the names of the Pokemons
-    def get_favorite_items(tree):
-        all_items = get_all_items_with_values(tree)
-        favorite_items = []
-        for item in all_items:
-            if item[2] == 'checked':
-                favorite_items.append(item[1][0])
-        return favorite_items
-
-    favorite_list = get_favorite_items(tree)
-    return favorite_list
-
-# Convert ID to 3-digit format when printing in Treeview
+# Convertir el id al imprimir en treeview
 def get_pk_id(id):
-    if id < 10:
-        return '00' + str(id)
-    elif id < 100:
-        return '0' + str(id)
+    if id <10:
+        return '00'+str(id)
+    elif id<100:
+        return '0'+str(id)
     else:
         return str(id)
+def cadena_a_lista(cadena):
+    # Utiliza el método split() para dividir la cadena en una lista
+    return cadena.split(',')
+def lista_a_cadena(lista):
+    # Utiliza la función join() para unir los elementos de la lista con comas
+    return ','.join(lista)
 
-# Function to display all in Treeview
-def update_treeview_favs(pkinfo):
-    global tree
-    try:
-        tree.delete(*tree.get_children())
-        info = pkinfo
-        for row in info:
-            id = get_pk_id(row[0])
-            tree.insert('', 'end', text=id, values=(row[1],), tags=('row'))
-    except ValueError as error:
-        print(f"Error updating data: {error}")
-
-def command_to_search_all():
-    search = search_all_pk()
-    update_treeview_all(search)
-
-# Function to display only favs in Treeview
-def update_treeview_all(pkinfo):
-    global tree
-    try:
-        tree.delete(*tree.get_children())
-        info = pkinfo
-        for row in info:
-            id = get_pk_id(row[0])
-            tree.insert('', 'end', text=id, values=(row[1],), tags=('unchecked', 'row'))
-    except ValueError as error:
-        print(f"Error updating data: {error}")
-
+# Funcion para guardar la lista personal 
 def command_to_search_favs():
-    fav = favorite_items()  
-    search = search_pk(fav)
+    # Funcion para guardar la lista personal 
+    def save_favorites():
+        def favorite_items():
+            def get_all_items_with_values(tree):
+                items = tree.get_children()
+                all_items = []
+                for item in items:
+                    all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
+                return all_items
+            #guardar solo los nombres de los pokemons
+            def get_favorite_items(tree):
+                all_items = get_all_items_with_values(tree)
+                favorite_items = []
+                for item in all_items:
+                    if item[2] == 'checked':
+                        favorite_items.append(item[1][0])
+                return favorite_items
+
+            favorite_list = get_favorite_items(tree)
+            return favorite_list
+   
+        fav = favorite_items()
+        value = lista_a_cadena(fav)
+        if value:
+            save_pk('Rafita-kun',value)
+        else:
+            pass
+    save_favorites()
+
+    def update_treeview_favs(pkinfo):
+        global tree
+        try:
+            tree.delete(*tree.get_children())
+            for info in pkinfo:
+                for row in info:
+                    id = get_pk_id(row[0])
+                    tree.insert('', 'end', text=id, values=row[1], tags=('row'))
+        except ValueError as error:
+            print(f"Error al actualizar los datos: {error}")
+    pkfav = search_favorite_pk('Rafita-kun')
+    value = cadena_a_lista(pkfav[0])
+    search = search_pk_fav(value)
     update_treeview_favs(search)
+    
+#Recargar treeview con los tags cambiados 
+def command_to_recharge():
+    def return_items():
+        def get_all_items_with_values(tree):
+            items = tree.get_children()
+            all_items = []
+            for item in items:
+                all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
+            return all_items
 
-# Function to collect values from the selected item
-def select_item(event):
-    try:
-        itemSeleccionado = tree.focus()
-        if itemSeleccionado:
-            values = tree.item(itemSeleccionado)['values']
-            print(f"Selected values: {values}")
-    except ValueError as error:
-        print(f"Error selecting record: {error}")
+        #guardar solo los nombres de los pokemons
+        def get_favorite_items(tree):
+            all_items = get_all_items_with_values(tree)
+            favorite_items = []
+            for item in all_items:
+                favorite_items.append(item[1][0])
+            return favorite_items
 
-# Adjust image sizes
+        favorite_list = get_favorite_items(tree)
+        return favorite_list 
+    def recharge_treeview(pkinfo,checked):
+        global tree
+        try:
+            tree.delete(*tree.get_children())
+            for row in pkinfo:
+                if row[1] in checked:
+                    id = get_pk_id(row[0])
+                    tree.insert('', 'end', text=id, values=row[1], tags=('checked','row'))
+                else:
+                    id = get_pk_id(row[0])
+                    tree.insert('', 'end', text=id, values=row[1], tags=('unchecked','row'))
+        except ValueError as error:
+            print(f"Error al actualizar los datos: {error}")
+
+    fav = return_items()
+    search = search_all_pk()
+    recharge_treeview(search,fav)
+    
+    Button2["state"] = "normal"
+
+#Guardar lista de favoritos
+def save_favorites():
+    def favorite_items():
+        def get_all_items_with_values(tree):
+            items = tree.get_children()
+            all_items = []
+            for item in items:
+                all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
+            return all_items
+        #guardar solo los nombres de los pokemons
+        def get_favorite_items(tree):
+            all_items = get_all_items_with_values(tree)
+            favorite_items = []
+            for item in all_items:
+                if item[2] == 'checked':
+                    favorite_items.append(item[1][0])
+            return favorite_items
+
+        favorite_list = get_favorite_items(tree)
+        return favorite_list
+
+    def save_pk(username,pks):
+        db = sqlite3.connect('..pokimons.db')
+        cursor = db.cursor()
+        cursor.execute("UPDATE usuarios SET pkFavs == ? WHERE usuarioNombre == ?",(pks,username))
+        db.commit()
+        db.close()
+        
+    fav = favorite_items()
+    value = lista_a_cadena(fav)
+    save_pk('Rafita-kun',value)
+
+#acomodar imagenes
 def resize_image(path, size):
     image = Image.open(path)
     image = image.resize(size, Image.LANCZOS)
     return ImageTk.PhotoImage(image)
 
-# Function to change the tag on each click
+#funcion para cambiar el tag en cada click
 def box_click(event):
     item = tree.identify_row(event.y)
     if not item:
@@ -207,7 +233,7 @@ def box_click(event):
         tree.item(item, tags=('checked',))
     elif 'checked' in tags:
         tree.item(item, tags=('unchecked',))
-
+        
 # Create window
 root = tk.Tk()
 root.geometry("1366x768")
@@ -281,10 +307,10 @@ tree.tag_configure('checked', image=im_checked)
 
 # Assign actions to Treeview
 tree.bind('<Button-1>', box_click, True)
-tree.bind("<<TreeviewSelect>>", select_item)
+tree.bind("<<TreeviewSelect>>", return_selection)
 
 # Fill Treeview
-command_to_search_all()
+command_to_search_favs()
 
 # Side canvas for Pokemon details
 canvas = tk.Canvas(treeview_canvas, bg="white", height=300)  # Added height for better layout
@@ -296,7 +322,7 @@ buttons_canvas = tk.Canvas(root)
 buttons_canvas.pack(side="bottom", fill="x")
 
 # Create buttons
-Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_search_all)
+Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_recharge)
 Button2 = tk.Button(buttons_canvas, text="Favoritos", width=10, command=command_to_search_favs)
 boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'", command=mostrar_texto_aleatorio)
 
