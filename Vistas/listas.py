@@ -6,102 +6,186 @@ import sqlite3
 import random
 from pathlib import Path
 from Library.librerias import *
-OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
+def main():  
+    global tree
+    OUTPUT_PATH = Path(__file__).parent
+    ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Pokedex_by_Venezuelan\assets")
 
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
-
-
-# Global image reference to prevent garbage collection
-global_image_ref = None
-
-# Changes to the Canvas Pokemon
-
-def resize_image_aspect_ratio(path, base_height):
-    """
-    Redimensiona la imagen a una altura base, preservando la relación de aspecto.
-
-    :param path: Ruta de la imagen
-    :param base_height: Altura base deseada
-    :return: Objeto PhotoImage redimensionado
-    """
-    
-    image = Image.open(path)
-    aspect_ratio = base_height / float(image.size[1])  # Calcula la proporción del alto
-    base_width = int(float(image.size[0]) * float(aspect_ratio))  # Calcula el nuevo ancho manteniendo la relación de aspecto
-    image = image.resize((base_width, base_height), Image.LANCZOS)  # Redimensiona la imagen
-    return ImageTk.PhotoImage(image)  # Convierte a un objeto PhotoImage para usar en Tkinter
+    def relative_to_assets(path: str) -> Path:
+        return ASSETS_PATH / Path(path)
 
 
-def mostrar_texto_aleatorio():
-    global global_image_ref  # Asegúrate de que la imagen no sea recolectada por el garbage collector
+    # Global image reference to prevent garbage collection
+    global_image_ref = None
 
-    nombre="Jianxin"
-    tipo = "planta"
-    altura = "1.6"
-    peso = "20"
-    sexo = "femenino"
-    descripcion="""sumary_line
-    Certainly! In Wuthering Waves, Jianxin is a 5★ rarity character from the Aero element who wields Gauntlets. She follows the path of a Taoist monk and is the successor of Fengyiquan, dedicating her life to mastering the ultimate martial art1. Jianxin’s versatility allows her to flex into various roles, including main DPS, sub-DPS, or support. Here are some key points about her:
-    """
-    prin=len(descripcion)
-    print(prin)
+    # Changes to the Canvas Pokemon
 
-    # Redimensionar la imagen a 300 píxeles de altura manteniendo la proporción
-    render = resize_image_aspect_ratio(relative_to_assets("j.png"), 500)
+    def resize_image_aspect_ratio(path, base_height):
+        """
+        Redimensiona la imagen a una altura base, preservando la relación de aspecto.
 
-    # Guarda la referencia global de la imagen
-    global_image_ref = render
+        :param path: Ruta de la imagen
+        :param base_height: Altura base deseada
+        :return: Objeto PhotoImage redimensionado
+        """
+        
+        image = Image.open(path)
+        aspect_ratio = base_height / float(image.size[1])  # Calcula la proporción del alto
+        base_width = int(float(image.size[0]) * float(aspect_ratio))  # Calcula el nuevo ancho manteniendo la relación de aspecto
+        image = image.resize((base_width, base_height), Image.LANCZOS)  # Redimensiona la imagen
+        return ImageTk.PhotoImage(image)  # Convierte a un objeto PhotoImage para usar en Tkinter
 
-    # Borra el contenido actual del Canvas
-    canvas.delete("all")
-
-    # Mostrar la imagen redimensionada en el Canvas
-    canvas.create_image(0, 60, anchor="nw", image=render)
-
-    # Crear etiquetas
-    nombre_pokemon = nombre
-    etiqueta_nombre = tk.Label(canvas, text=nombre_pokemon, font=("Helvetica", 14, "bold"), bg="white")
-    etiqueta_nombre.place(x=10, y=10)  # Ajustar las coordenadas según la preferencia
-
-    canvas.create_rectangle(500, 10, 1100, 600, fill="lightblue")
-
-    # Crear etiquetas de información
-    canvas.create_text(510, 100, text="Tipo:"+ tipo, anchor="w", font=("Arial", 28))
-    canvas.create_text(800, 100, text="Altura:"+ altura, anchor="w", font=("Arial", 28))
-    canvas.create_text(510, 150, text="Peso:"+ peso, anchor="w", font=("Arial", 28))
-    canvas.create_text(800, 150, text="Sexo:"+ sexo, anchor="w", font=("Arial", 28))
-    text_area = tk.Text(bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, wrap=tk.WORD,)
-    text_area.place(x=535.0, y=382.0, width=550.0, height=238.0)  
-    text_area.insert(tk.END,descripcion)
-    text_area.config(font=("Montserrat Medium", 15), padx=10, pady=10, borderwidth=0.5, relief="solid",state="disabled")
-
-# SQL function to search for a specific Pokemon
 #funcion para recoger valores del item seleccionado
-def return_selection(event):
-    values = tree.focus()
-    pokemon = tree.item(values,'values')
-    search = search_pk(pokemon)
+    def return_selection(event):
+        values = tree.focus()
+        pokemon = tree.item(values,'values')
+        search = search_pk(pokemon)
+        def mostrar_texto_aleatorio(search):
+            global global_image_ref  # Asegúrate de que la imagen no sea recolectada por el garbage collector
+            values = search[0]
+            nombre = values[1]
+            tipo = values[2]
+            altura = values[4]
+            peso = values[3]
+            sexo = values[5]
+            descripcion = values[6]
 
-# Convertir el id al imprimir en treeview
-def get_pk_id(id):
-    if id <10:
-        return '00'+str(id)
-    elif id<100:
-        return '0'+str(id)
-    else:
-        return str(id)
-def cadena_a_lista(cadena):
-    # Utiliza el método split() para dividir la cadena en una lista
-    return cadena.split(',')
-def lista_a_cadena(lista):
-    # Utiliza la función join() para unir los elementos de la lista con comas
-    return ','.join(lista)
+            # Redimensionar la imagen a 300 píxeles de altura manteniendo la proporción
+            render = resize_image_aspect_ratio(relative_to_assets("j.png"), 500)
 
-# Funcion para guardar la lista personal 
-def command_to_search_favs():
+            # Guarda la referencia global de la imagen
+            global_image_ref = render
+
+            # Borra el contenido actual del Canvas
+            canvas.delete("all")
+
+            # Mostrar la imagen redimensionada en el Canvas
+            canvas.create_image(0, 60, anchor="nw", image=render)
+
+            canvas.create_rectangle(500, 10, 1100, 600, fill="lightblue")
+
+            # Crear etiquetas de información
+            canvas.create_text(80, 80, text=nombre, anchor="w", font=("Arial", 28))
+            canvas.create_text(510, 100, text="Tipo:"+ tipo, anchor="w", font=("Arial", 28))
+            canvas.create_text(800, 100, text="Altura:"+ str(altura), anchor="w", font=("Arial", 28))
+            canvas.create_text(510, 150, text="Peso:"+ str(peso), anchor="w", font=("Arial", 28))
+            canvas.create_text(800, 150, text="Sexo:"+ sexo, anchor="w", font=("Arial", 28))
+            text_area = tk.Text(bd=0, bg="#FFFFFF", fg="#000716", highlightthickness=0, wrap=tk.WORD,)
+            text_area.place(x=535.0, y=382.0, width=550.0, height=238.0)  
+            text_area.insert(tk.END,descripcion)
+            text_area.config(font=("Montserrat Medium", 15), padx=10, pady=10, borderwidth=0.5, relief="solid",state="disabled")
+        if search:
+            mostrar_texto_aleatorio(search)
+        else:
+            pass
+        
+    # Convertir el id al imprimir en treeview
+    def get_pk_id(id):
+        if id <10:
+            return '00'+str(id)
+        elif id<100:
+            return '0'+str(id)
+        else:
+            return str(id)
+    def cadena_a_lista(cadena):
+        # Utiliza el método split() para dividir la cadena en una lista
+        if cadena:
+            return cadena.split(',')
+        else:
+            pass
+    
+    def lista_a_cadena(lista):
+        # Utiliza la función join() para unir los elementos de la lista con comas
+        if lista:
+            return ','.join(lista)
+        else:
+            pass
+
     # Funcion para guardar la lista personal 
+    def command_to_search_favs():
+        # Funcion para guardar la lista personal 
+        def save_favorites():
+            def favorite_items():
+                def get_all_items_with_values(tree):
+                    items = tree.get_children()
+                    all_items = []
+                    for item in items:
+                        all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
+                    return all_items
+                #guardar solo los nombres de los pokemons
+                def get_favorite_items(tree):
+                    all_items = get_all_items_with_values(tree)
+                    favorite_items = []
+                    for item in all_items:
+                        if item[2] == 'checked':
+                            favorite_items.append(item[1][0])
+                    return favorite_items
+
+                favorite_list = get_favorite_items(tree)
+                return favorite_list
+    
+            fav = favorite_items()
+            if fav:
+                value = lista_a_cadena(fav)
+                save_pk('Rafita-kun',value)
+            else:
+                pass
+        save_favorites()
+
+        def update_treeview_favs(pkinfo):
+            global tree
+            try:
+                tree.delete(*tree.get_children())
+                for info in pkinfo:
+                    for row in info:
+                        id = get_pk_id(row[0])
+                        tree.insert('', 'end', text=id, values=row[1], tags=('row'))
+            except ValueError as error:
+                print(f"Error al actualizar los datos: {error}")
+        pkfav = search_favorite_pk('Rafita-kun')
+        value = cadena_a_lista(pkfav[0])
+        search = search_pk_fav(value)
+        update_treeview_favs(search)
+        
+    #Recargar treeview con los tags cambiados 
+    def command_to_recharge():
+        def return_items():
+            def get_all_items_with_values(tree):
+                items = tree.get_children()
+                all_items = []
+                for item in items:
+                    all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
+                return all_items
+
+            #guardar solo los nombres de los pokemons
+            def get_favorite_items(tree):
+                all_items = get_all_items_with_values(tree)
+                favorite_items = []
+                for item in all_items:
+                    favorite_items.append(item[1][0])
+                return favorite_items
+
+            favorite_list = get_favorite_items(tree)
+            return favorite_list 
+        def recharge_treeview(pkinfo,checked):
+            global tree
+            try:
+                tree.delete(*tree.get_children())
+                for row in pkinfo:
+                    if row[1] in checked:
+                        id = get_pk_id(row[0])
+                        tree.insert('', 'end', text=id, values=row[1], tags=('checked','row'))
+                    else:
+                        id = get_pk_id(row[0])
+                        tree.insert('', 'end', text=id, values=row[1], tags=('unchecked','row'))
+            except ValueError as error:
+                print(f"Error al actualizar los datos: {error}")
+
+        fav = return_items()
+        search = search_all_pk()
+        recharge_treeview(search,fav)
+        
+    #Guardar lista de favoritos
     def save_favorites():
         def favorite_items():
             def get_all_items_with_values(tree):
@@ -121,120 +205,36 @@ def command_to_search_favs():
 
             favorite_list = get_favorite_items(tree)
             return favorite_list
-   
+
+        def save_pk(username,pks):
+            db = sqlite3.connect('..pokimons.db')
+            cursor = db.cursor()
+            cursor.execute("UPDATE usuarios SET pkFavs == ? WHERE usuarioNombre == ?",(pks,username))
+            db.commit()
+            db.close()
+            
         fav = favorite_items()
         value = lista_a_cadena(fav)
-        if value:
-            save_pk('Rafita-kun',value)
-        else:
-            pass
-    save_favorites()
+        save_pk('Rafita-kun',value)
 
-    def update_treeview_favs(pkinfo):
-        global tree
-        try:
-            tree.delete(*tree.get_children())
-            for info in pkinfo:
-                for row in info:
-                    id = get_pk_id(row[0])
-                    tree.insert('', 'end', text=id, values=row[1], tags=('row'))
-        except ValueError as error:
-            print(f"Error al actualizar los datos: {error}")
-    pkfav = search_favorite_pk('Rafita-kun')
-    value = cadena_a_lista(pkfav[0])
-    search = search_pk_fav(value)
-    update_treeview_favs(search)
-    
-#Recargar treeview con los tags cambiados 
-def command_to_recharge():
-    def return_items():
-        def get_all_items_with_values(tree):
-            items = tree.get_children()
-            all_items = []
-            for item in items:
-                all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
-            return all_items
+    #acomodar imagenes
+    def resize_image(path, size):
+        image = Image.open(path)
+        image = image.resize(size, Image.LANCZOS)
+        return ImageTk.PhotoImage(image)
 
-        #guardar solo los nombres de los pokemons
-        def get_favorite_items(tree):
-            all_items = get_all_items_with_values(tree)
-            favorite_items = []
-            for item in all_items:
-                favorite_items.append(item[1][0])
-            return favorite_items
+    #funcion para cambiar el tag en cada click
+    def box_click(event):
+        item = tree.identify_row(event.y)
+        if not item:
+            return
+        tags = tree.item(item, 'tags')
+        if 'unchecked' in tags:
+            tree.item(item, tags=('checked',))
+        elif 'checked' in tags:
+            tree.item(item, tags=('unchecked',))
 
-        favorite_list = get_favorite_items(tree)
-        return favorite_list 
-    def recharge_treeview(pkinfo,checked):
-        global tree
-        try:
-            tree.delete(*tree.get_children())
-            for row in pkinfo:
-                if row[1] in checked:
-                    id = get_pk_id(row[0])
-                    tree.insert('', 'end', text=id, values=row[1], tags=('checked','row'))
-                else:
-                    id = get_pk_id(row[0])
-                    tree.insert('', 'end', text=id, values=row[1], tags=('unchecked','row'))
-        except ValueError as error:
-            print(f"Error al actualizar los datos: {error}")
-
-    fav = return_items()
-    search = search_all_pk()
-    recharge_treeview(search,fav)
-    
-    Button2["state"] = "normal"
-
-#Guardar lista de favoritos
-def save_favorites():
-    def favorite_items():
-        def get_all_items_with_values(tree):
-            items = tree.get_children()
-            all_items = []
-            for item in items:
-                all_items.append((item, tree.item(item, 'values'),tree.item(item, 'tags')[0]))
-            return all_items
-        #guardar solo los nombres de los pokemons
-        def get_favorite_items(tree):
-            all_items = get_all_items_with_values(tree)
-            favorite_items = []
-            for item in all_items:
-                if item[2] == 'checked':
-                    favorite_items.append(item[1][0])
-            return favorite_items
-
-        favorite_list = get_favorite_items(tree)
-        return favorite_list
-
-    def save_pk(username,pks):
-        db = sqlite3.connect('..pokimons.db')
-        cursor = db.cursor()
-        cursor.execute("UPDATE usuarios SET pkFavs == ? WHERE usuarioNombre == ?",(pks,username))
-        db.commit()
-        db.close()
         
-    fav = favorite_items()
-    value = lista_a_cadena(fav)
-    save_pk('Rafita-kun',value)
-
-#acomodar imagenes
-def resize_image(path, size):
-    image = Image.open(path)
-    image = image.resize(size, Image.LANCZOS)
-    return ImageTk.PhotoImage(image)
-
-#funcion para cambiar el tag en cada click
-def box_click(event):
-    item = tree.identify_row(event.y)
-    if not item:
-        return
-    tags = tree.item(item, 'tags')
-    if 'unchecked' in tags:
-        tree.item(item, tags=('checked',))
-    elif 'checked' in tags:
-        tree.item(item, tags=('unchecked',))
-
-def main():       
     # Create window
     root = tk.Tk()
     root.geometry("1366x768")
@@ -325,7 +325,7 @@ def main():
     # Create buttons
     Button1 = tk.Button(buttons_canvas, text="Pokedex", width=10, command=command_to_recharge)
     Button2 = tk.Button(buttons_canvas, text="Favoritos", width=10, command=command_to_search_favs)
-    boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'", command=mostrar_texto_aleatorio)
+    boton_ejecutar = tk.Button(buttons_canvas, text="Mostrar 'hola'")
 
     # Position buttons below Treeview
     Button1.pack(side="right", anchor="se", padx=5)
